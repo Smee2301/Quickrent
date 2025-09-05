@@ -1,0 +1,208 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+.renter-container {
+  display: flex;
+  min-height: 100vh;
+  height: 100%;
+  background-image: url("/renterdashbord.webp");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+}
+
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.renter-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.renter-sidebar {
+  width: 280px;
+  background-color: rgb(17, 27, 82);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding-top: 40px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  overflow-y: auto;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.renter-logo {
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.renter-nav-section-title {
+  padding: 15px 25px 5px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffd21e;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(239, 241, 255, 0.2);
+  margin-bottom: 5px;
+  letter-spacing: 1px;
+}
+
+.renter-nav-links {
+  flex-grow: 1;
+}
+
+.renter-nav-links a {
+  display: flex;
+  align-items: center;
+  padding: 15px 25px;
+  font-weight: 500;
+  font-size: 16px;
+  border-left: 4px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.renter-nav-links a i {
+  margin-right: 15px;
+  min-width: 20px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.renter-nav-links a:hover,
+.renter-nav-links a.active {
+  background-color: #0056b3;
+  border-left-color: #ffd21e;
+  color: #fff;
+}
+
+.renter-nav-links a:hover i {
+  color: #ffd21e;
+}
+
+/* Main Content */
+.renter-main-content {
+  margin-left: 280px;
+  padding: 40px 50px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.renter-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.renter-user-info {
+  font-weight: 500;
+  margin-right: 20px;
+  font-size: 16px;
+}
+
+.renter-btn-logout {
+  background-color: #b3c8e89a;
+  color: #003580;
+  border: 1px solid #fff;
+  padding: 10px 20px;
+  font-weight: 700;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.renter-btn-logout:hover {
+  background-color: #5f97f6;
+}
+
+.renter-title {
+  font-weight: 700;
+  margin-bottom: 30px;
+  font-size: 32px;
+  color: #0f073bdc;
+}
+
+.renter-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.renter-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  color: #6383af;
+  font-weight: 600;
+  font-size: 16px;
+  text-align: center;
+}
+
+.renter-card i {
+  font-size: 40px;
+  margin-bottom: 10px;
+  color: #260f7e;
+}
+
+.renter-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  color: #0056b3;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .renter-sidebar {
+    width: 60px;
+    padding-top: 20px;
+  }
+
+  .renter-logo,
+  .renter-nav-section-title {
+    display: none;
+  }
+
+  .renter-nav-links a {
+    justify-content: center;
+    padding: 15px 0;
+  }
+
+  .renter-nav-links a span {
+    display: none;
+  }
+
+  .renter-main-content {
+    margin-left: 60px;
+    padding: 30px 20px;
+  }
+
+  .renter-title {
+    font-size: 26px;
+  }
+
+  .renter-card {
+    font-size: 14px;
+  }
+}

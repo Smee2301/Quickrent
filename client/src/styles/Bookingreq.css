@@ -1,0 +1,173 @@
+/* Page wrapper */
+.ob-page {
+  background: url("/ownerdash.jpg") no-repeat center center/cover;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar */
+.ob-navbar {
+  background: hwb(217 94% 0% / 0.952);
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.ob-navbar img {
+  height: 55px;
+}
+.ob-navbar h1 {
+  color: #060337;
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* Container */
+.ob-co {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 30px;
+}
+
+.ob-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  padding: 25px;
+  width: 100%;
+  max-width: 950px;
+  overflow-x: auto;
+}
+
+/* Header actions: Booking Requests + Back button */
+.header-a {
+  display: flex;
+  align-items: center;
+
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.header-a h2 {
+  color: #2c2788;
+  margin: 0;
+}
+.btn-back {
+  background: #072956;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+.btn-back:hover {
+  background: #051a38;
+}
+
+/* When no bookings */
+.no-bookings {
+  text-align: center;
+  padding: 60px 20px;
+  color: #555;
+}
+.no-bookings i {
+  font-size: 40px;
+  color: #2c2788;
+  margin-bottom: 10px;
+}
+.no-bookings h3 {
+  margin: 10px 0;
+  color: #2c2788;
+}
+.no-bookings p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+/* Booking Request Table */
+.ob-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  min-width: 700px;
+}
+.ob-table th,
+.ob-table td {
+  padding: 12px;
+  text-align: center;
+}
+.ob-table th {
+  background: #072956;
+  color: #fff;
+  font-weight: 500;
+}
+.ob-table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+/* Buttons */
+.ob-btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s ease-in-out;
+}
+.ob-btn-approve {
+  background: #28a745;
+  color: white;
+}
+.ob-btn-approve:hover {
+  background: #218838;
+}
+.ob-btn-reject {
+  background: #dc3545;
+  color: white;
+}
+.ob-btn-reject:hover {
+  background: #c82333;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .ob-card {
+    padding: 15px;
+  }
+  .ob-table th,
+  .ob-table td {
+    font-size: 14px;
+    padding: 8px;
+  }
+  .ob-navbar h1 {
+    font-size: 16px;
+  }
+  .header-actions {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+}
+@media (max-width: 480px) {
+  .ob-navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 20px;
+  }
+  .ob-navbar img {
+    height: 45px;
+    margin-bottom: 5px;
+  }
+  .ob-navbar h1 {
+    font-size: 14px;
+  }
+  .header-actions h2 {
+    font-size: 16px;
+  }
+}

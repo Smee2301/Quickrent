@@ -1,0 +1,240 @@
+/* Owner Login Page */
+.ol-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-image: url("/background1.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: "Poppins", sans-serif;
+}
+
+.ol-container {
+  background: rgba(241, 247, 255, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  max-width: 450px;
+  width: 90%;
+  padding: 35px;
+  backdrop-filter: blur(10px);
+}
+
+.ol-logo {
+  display: block;
+  margin: 0 auto 20px;
+  height: 60px;
+}
+
+.ol-container h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #004aad;
+  font-size: 28px;
+}
+
+.ol-container p {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #555;
+  font-size: 14px;
+}
+
+.ol-form-group {
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+.ol-form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+
+.ol-form-group input {
+  width: 200%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.ol-form-group input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.ol-form-group input.ol-error {
+  border-color: #d9534f;
+  box-shadow: 0 0 0 3px rgba(217, 83, 79, 0.1);
+}
+
+.ol-form-group input::placeholder {
+  color: #999;
+}
+
+/* Password field with toggle */
+.ol-password-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 200%;
+}
+
+.ol-password-input input {
+  padding-right: 22px;
+}
+
+.ol-password-toggle {
+  position: absolute;
+  right:  12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #666;
+  padding: 0;
+  transition: color 0.3s;
+}
+
+.ol-password-toggle:hover {
+  color: #007bff;
+}
+
+/* Error text */
+.ol-error-text {
+  color: #d9534f;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+}
+
+/* Login button */
+.ol-login-btn {
+  width: 200%;
+  padding: 14px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.ol-login-btn:hover:not(:disabled) {
+  background: #0056b3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.ol-login-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Divider */
+.ol-divider {
+  text-align: center;
+  margin: 25px 0;
+  position: relative;
+}
+
+.ol-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #ccc;
+}
+
+.ol-divider span {
+  background: #f1f7ffd1;
+  padding: 0 15px;
+  color: #666;
+  font-size: 14px;
+}
+
+/* Google button */
+.ol-google-btn {
+  width: 100%;
+  padding: 12px;
+  background: white;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  transition: all 0.3s ease;
+  gap: 10px;
+}
+
+.ol-google-btn:hover {
+  border-color: #007bff;
+  background: #f8f9fa;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ol-google-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+/* Links */
+.ol-links {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+}
+
+.ol-links a {
+  color: #004aad;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.ol-links a:hover {
+  color: #003080;
+  text-decoration: underline;
+}
+
+.ol-links .ol-separator {
+  margin: 0 10px;
+  color: #ccc;
+}
+
+/* Error/response messages */
+.ol-msg {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #d9534f;
+  min-height: 20px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+}
+
+.ol-msg:empty {
+  display: none;
+}

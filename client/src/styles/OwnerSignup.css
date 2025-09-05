@@ -1,0 +1,223 @@
+.owner-signup-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url("/background1.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  .owner-signup-container {
+    width: 100%;
+    max-width: 450px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    margin: 20px;
+    backdrop-filter: blur(10px);
+  }
+  
+  .owner-signup-container h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #004aad;
+    font-size: 28px;
+  }
+
+  .signup-subtitle {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #666;
+    font-size: 14px;
+  }
+  
+  .owner-form-group {
+    margin-bottom: 2px;
+  }
+  
+  .owner-form-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .owner-form-group input {
+    width: 200%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .owner-form-group input:focus {
+    outline: none;
+    border-color: #004aad;
+    box-shadow: 0 0 0 3px rgba(0, 74, 173, 0.1);
+  }
+
+  .owner-form-group input.error {
+    border-color: #d9534f;
+    box-shadow: 0 0 0 3px rgba(217, 83, 79, 0.1);
+  }
+
+  .owner-form-group input::placeholder {
+    color: #999;
+  }
+
+  .password-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 200%;
+  }
+
+  .password-input input {
+    padding-right: 45px;
+  }
+
+  .password-toggle {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #666;
+    padding: 0;
+    transition: color 0.3s;
+  }
+
+  .password-toggle:hover {
+    color: #004aad;
+  }
+
+  .error-text {
+    color: #d9534f;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+  }
+  
+  .owner-signup-btn {
+    width: 200%;
+    padding: 14px;
+    margin-top: 10px;
+    background: #004aad;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+  
+  .owner-signup-btn:hover:not(:disabled) {
+    background: #003080;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 74, 173, 0.3);
+  }
+
+  .owner-signup-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .divider {
+    text-align: center;
+    margin: 25px 0;
+    position: relative;
+  }
+
+  .divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #ddd;
+  }
+
+  .divider span {
+    background: #fff;
+    padding: 0 15px;
+    color: #666;
+    font-size: 14px;
+  }
+
+  .owner-google-btn {
+    width: 100%;
+    padding: 12px;
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    transition: all 0.3s ease;
+    gap: 10px;
+  }
+
+  .owner-google-btn:hover {
+    border-color: #004aad;
+    background: #f8f9fa;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .owner-google-btn img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .owner-signup-link {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+  }
+
+  .owner-signup-link a {
+    color: #004aad;
+    text-decoration: none;
+    margin-left: 5px;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+
+  .owner-signup-link a:hover {
+    color: #003080;
+    text-decoration: underline;
+  }
+  
+  .owner-signup-msg {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #28a745;
+    min-height: 20px;
+    padding: 12px;
+    border-radius: 8px;
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+  }
+
+  .owner-signup-msg:empty {
+    display: none;
+  }
+  

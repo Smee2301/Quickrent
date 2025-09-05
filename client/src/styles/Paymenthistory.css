@@ -1,0 +1,145 @@
+  
+  .ph-wrapper {
+    min-height: 100vh;
+    background: url("/ownerdash.jpg") no-repeat center center fixed;
+    background-size: cover;
+    padding: 20px;
+  }
+  
+  /* Navbar */
+  .phnavbarr {
+    background-color: #fdfeff;
+    padding: 15px 30px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 900px;
+    color: #2c2788;
+  }
+
+  .phnavbarr img.logo {
+    height: 60px;
+  }
+  
+  .phnavbarr h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+  }
+  
+  /* Container */
+  .phcontainer {
+    padding: 20px;
+    max-width: 1100px;
+    margin: auto;
+  }
+  
+  /* Summary cards */
+  .phsummary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+  
+  .phcard {
+    background: white;
+    padding: 18px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .phcard h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #004aad;
+  }
+  
+  .phcard p {
+    margin: 8px 0 0;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  /* Controls */
+  .phcontrols {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .phcontrols select {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+  }
+  
+  .phdownload-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .phdownload-buttons button {
+    padding: 8px 14px;
+    background: #004aad;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .phdownload-buttons button:hover {
+    background: #003080;
+  }
+  
+  /* Table */
+  .phtable-container {
+    overflow-x: auto;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  th,
+  td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    font-size: 14px;
+  }
+  
+  th {
+    background: #004aad;
+    color: white;
+  }
+  
+  tr:hover {
+    background: #f2f6ff;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .phcontrols {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+  
+    .phdownload-buttons {
+      width: 100%;
+      justify-content: flex-start;
+    }
+  }
+  
