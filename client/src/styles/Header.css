@@ -3,121 +3,132 @@
    ========================= */
 
    header {
-  background: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 10px 40px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
+    background-color: rgba(245, 250, 255, 0.813);
+    padding: 8px 20px;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  /* Logo - Compact size */
+  .nav-logo .logo {
+    height: 50px;  /* Smaller, compact size */
+    width: auto;
+    object-fit: contain;
+    margin-left: 0;
+    margin-right: 70px;
+  }
+  
+  /* Navigation Links Center */
+  .nav-links {
+    display: flex;
+    gap: 20px;  /* Compact gap */
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    font-size: 17px;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-links a:hover {
+    color: #007bff;
+  }
+  
+  /* Right Side Options */
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* spacing between role, language, profile */
+  }
+  
+  /* Role Selector */
+  .nav-role-selector {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .role-label {
+    font-weight: 500;
+    font-size: 19px;
+    color: #333;
+  }
+  
+  #user-role {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  /* Language Switch */
+  #language-switch {
+    padding: 6px 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  /* Profile Dropdown */
+  .profile-dropdown {
+    position: relative;
+  }
+  
+  .profile-btn {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  .profile-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 40px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    min-width: 180px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-menu.show {
+    display: block;
+  }
+  
+  .profile-menu a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 14px;
+    color: #333;
+    transition: background 0.3s ease;
+  }
+  
+  .profile-menu a:hover {
+    background: #f5f5f5;
+  }
 
-/* Navbar container */
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+  /* Right side container */
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
 
-/* Logo */
-.nav-logo .logo {
-  height: 50px;
-  width: auto;
-  cursor: pointer;
-}
-
-/* Role Selector */
-.nav-role-selector {
-  margin-left: 20px;
-}
-
-.role-label {
-  margin-right: 8px;
-  font-weight: 500;
-  font-size: 14px;
-  color: #333;
-}
-
-#user-role {
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-/* Navigation Links */
-.nav-links {
-  display: flex;
-  gap: 20px;
-}
-
-.nav-links a {
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
-  font-size: 15px;
-  transition: color 0.3s ease;
-}
-
-.nav-links a:hover {
-  color: #007bff;
-}
-
-/* Language Switch */
-#language-switch {
-  padding: 3px 4px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-  cursor: pointer;
-  background-color: #f0f0f0;
-  color: #333;
-  font-weight: 500;
-  font-size: 15px;
-  transition: color 0.3s ease;
-
-}
-
-/* Profile Dropdown */
-.profile-dropdown {
-  position: relative;
-  margin-left: 20px;
-}
-
-.profile-btn {
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  color: #333;
-}
-
-.profile-menu {
-  display: none;
-  position: absolute;
-  right: 0;
-  top: 40px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  min-width: 160px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.profile-menu a {
-  display: block;
-  padding: 10px 15px;
-  text-decoration: none;
-  font-size: 14px;
-  color: #333;
-  transition: background 0.3s ease;
-}
-
-.profile-menu a:hover {
-  background: #f5f5f5;
-}
-
-/* Show dropdown on hover */
-.profile-dropdown:hover .profile-menu {
-  display: block;
-}
+  /* Role Selector */
+  .nav-role-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  

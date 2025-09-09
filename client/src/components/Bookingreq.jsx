@@ -168,11 +168,239 @@ export default function Bookingreq() {
           )}
 
           {bookingRequests.length === 0 ? (
-            <div className="no-bookings">
-              <i className="fas fa-envelope-open"></i>
-              <h3>No booking requests yet</h3>
-              <p>When renters book your vehicles, their requests will appear here</p>
-            </div>
+            <>
+              <div className="no-bookings">
+                <i className="fas fa-envelope-open"></i>
+                <h3>No booking requests yet</h3>
+                <p>When renters book your vehicles, their requests will appear here</p>
+              </div>
+              {/* Example bookings (demo) */}
+              <div className="table-container" style={{ marginTop: 16 }}>
+                <h4 style={{ margin: '8px 0' }}>Example Bookings (Demo)</h4>
+                <table className="ob-table">
+                  <thead>
+                    <tr>
+                      <th>Vehicle</th>
+                      <th>Renter</th>
+                      <th>Pickup</th>
+                      <th>Return</th>
+                      <th>Duration</th>
+                      <th>Total Amount</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {/* Example 1: Pending Booking */}
+                    <tr>
+                      <td>
+                        <div className="vehicle-info">
+                          <img src="/lv1.avif" alt="Hyundai i20" className="vehicle-thumbnail" />
+                          <div>
+                            <strong>Hyundai i20 Sportz</strong>
+                            <small>GJ 01 AB 1234</small>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="renter-info">
+                          <strong>Rahul Sharma</strong>
+                          <small>+91 98765 43210</small>
+                          <div className="renter-actions">
+                            <button className="btn-view-profile" disabled>
+                              <i className="fas fa-user"></i> Profile
+                            </button>
+                            <button className="btn-view-docs" disabled>
+                              <i className="fas fa-file"></i> Docs
+                            </button>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="datetime-info">
+                          <strong>Dec 15, 2024</strong>
+                          <small>10:00 AM</small>
+                          <div className="location-info">
+                            <i className="fas fa-map-marker-alt"></i>
+                            <span>Ahmedabad Airport</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="datetime-info">
+                          <strong>Dec 17, 2024</strong>
+                          <small>06:00 PM</small>
+                          <div className="location-info">
+                            <i className="fas fa-map-marker-alt"></i>
+                            <span>Ahmedabad Airport</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="duration-info">
+                          <strong>2 days 8 hours</strong>
+                          <small>56 hours total</small>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="amount-info">
+                          <strong>{formatCurrency(3500)}</strong>
+                          <small>Security: {formatCurrency(2000)}</small>
+                          <small>Rate: ₹150/hour</small>
+                        </div>
+                      </td>
+                      <td>{getStatusBadge('pending')}</td>
+                      <td>
+                        <div className="action-buttons">
+                          <button className="ob-btn ob-btn-approve" disabled>
+                            <i className="fas fa-check"></i> Approve
+                          </button>
+                          <button className="ob-btn ob-btn-reject" disabled>
+                            <i className="fas fa-times"></i> Reject
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+
+                    {/* Example 2: Approved Booking */}
+                    <tr>
+                      <td>
+                        <div className="vehicle-info">
+                          <img src="/lv2.webp" alt="Maruti Swift" className="vehicle-thumbnail" />
+                          <div>
+                            <strong>Maruti Swift VDI</strong>
+                            <small>GJ 05 CD 5678</small>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="renter-info">
+                          <strong>Priya Patel</strong>
+                          <small>+91 87654 32109</small>
+                          <div className="renter-actions">
+                            <button className="btn-view-profile" disabled>
+                              <i className="fas fa-user"></i> Profile
+                            </button>
+                            <button className="btn-view-docs" disabled>
+                              <i className="fas fa-file"></i> Docs
+                            </button>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="datetime-info">
+                          <strong>Dec 20, 2024</strong>
+                          <small>09:30 AM</small>
+                          <div className="location-info">
+                            <i className="fas fa-map-marker-alt"></i>
+                            <span>Vadodara Railway Station</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="datetime-info">
+                          <strong>Dec 22, 2024</strong>
+                          <small>05:30 PM</small>
+                          <div className="location-info">
+                            <i className="fas fa-map-marker-alt"></i>
+                            <span>Vadodara Railway Station</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="duration-info">
+                          <strong>2 days 8 hours</strong>
+                          <small>56 hours total</small>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="amount-info">
+                          <strong>{formatCurrency(2800)}</strong>
+                          <small>Security: {formatCurrency(1500)}</small>
+                          <small>Rate: ₹100/hour</small>
+                        </div>
+                      </td>
+                      <td>{getStatusBadge('approved')}</td>
+                      <td>
+                        <div className="action-buttons">
+                          <span className="status-note">
+                            <i className="fas fa-check-circle"></i> Ready for pickup
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+
+                    {/* Example 3: Completed Booking */}
+                    <tr>
+                      <td>
+                        <div className="vehicle-info">
+                          <img src="/vl3.jpg" alt="Honda City" className="vehicle-thumbnail" />
+                          <div>
+                            <strong>Honda City VX</strong>
+                            <small>GJ 03 EF 9012</small>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="renter-info">
+                          <strong>Amit Kumar</strong>
+                          <small>+91 76543 21098</small>
+                          <div className="renter-actions">
+                            <button className="btn-view-profile" disabled>
+                              <i className="fas fa-user"></i> Profile
+                            </button>
+                            <button className="btn-view-docs" disabled>
+                              <i className="fas fa-file"></i> Docs
+                            </button>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="datetime-info">
+                          <strong>Dec 10, 2024</strong>
+                          <small>08:00 AM</small>
+                          <div className="location-info">
+                            <i className="fas fa-map-marker-alt"></i>
+                            <span>Surat Central Mall</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="datetime-info">
+                          <strong>Dec 12, 2024</strong>
+                          <small>07:00 PM</small>
+                          <div className="location-info">
+                            <i className="fas fa-map-marker-alt"></i>
+                            <span>Surat Central Mall</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="duration-info">
+                          <strong>2 days 11 hours</strong>
+                          <small>59 hours total</small>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="amount-info">
+                          <strong>{formatCurrency(4200)}</strong>
+                          <small>Security: {formatCurrency(2500)}</small>
+                          <small>Rate: ₹180/hour</small>
+                        </div>
+                      </td>
+                      <td>{getStatusBadge('completed')}</td>
+                      <td>
+                        <div className="action-buttons">
+                          <span className="status-note">
+                            <i className="fas fa-star"></i> Trip completed
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </>
           ) : (
             <div className="table-container">
               <table className="ob-table">
@@ -224,14 +452,38 @@ export default function Bookingreq() {
                           </div>
                         </div>
                       </td>
-                      <td>{formatDate(booking.pickupDate)}</td>
-                      <td>{formatDate(booking.returnDate)}</td>
                       <td>
-                        {booking.duration} {booking.durationUnit}
+                        <div className="datetime-info">
+                          <strong>{formatDate(booking.pickupDate)}</strong>
+                          <small>{new Date(booking.pickupDate).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</small>
+                          <div className="location-info">
+                            <i className="fas fa-map-marker-alt"></i>
+                            <span>{booking.pickupLocation || 'Location not specified'}</span>
+                          </div>
+                        </div>
                       </td>
                       <td>
-                        <strong>{formatCurrency(booking.totalAmount)}</strong>
-                        <small>Security: {formatCurrency(booking.securityDeposit)}</small>
+                        <div className="datetime-info">
+                          <strong>{formatDate(booking.returnDate)}</strong>
+                          <small>{new Date(booking.returnDate).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</small>
+                          <div className="location-info">
+                            <i className="fas fa-map-marker-alt"></i>
+                            <span>{booking.returnLocation || 'Location not specified'}</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="duration-info">
+                          <strong>{booking.duration} {booking.durationUnit}</strong>
+                          <small>{booking.totalHours || 'N/A'} hours total</small>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="amount-info">
+                          <strong>{formatCurrency(booking.totalAmount)}</strong>
+                          <small>Security: {formatCurrency(booking.securityDeposit)}</small>
+                          <small>Rate: ₹{booking.hourlyRate || 'N/A'}/hour</small>
+                        </div>
                       </td>
                       <td>{getStatusBadge(booking.status)}</td>
                       <td>

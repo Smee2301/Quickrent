@@ -173,6 +173,9 @@ h1 {
   border: 2px solid #0056b3;
 }
 
+.welcome-section h1 {
+  font-size: 25px;
+}
 /* Responsive */
 @media (max-width: 768px) {
   .sidebar {

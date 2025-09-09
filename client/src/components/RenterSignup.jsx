@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import "../styles/RenterSignup.css";
+import "../styles/CredentialsPopup.css";
 
 export default function RenterSignup() {
   const [form, setForm] = useState({ name:'', email:'', phone:'', password:'', confirm:'' });
@@ -9,6 +10,8 @@ export default function RenterSignup() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showCredentials, setShowCredentials] = useState(false);
+  const [savedCredentials, setSavedCredentials] = useState({ email: '', password: '' });
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -126,7 +129,10 @@ export default function RenterSignup() {
         return;
       }
 
-      setMsg('Account created successfully! You can now sign in.');
+      setMsg('Account created successfully! You can now sign in.\nTip: Save your email/password securely and lock your device with a PIN.');
+      try { localStorage.setItem('qr_last_renter_email', form.email); } catch {}
+      setSavedCredentials({ email: form.email, password: form.password });
+      setShowCredentials(true);
       setTimeout(() => {
         navigate('/renter/login');
       }, 2000);
@@ -266,6 +272,27 @@ export default function RenterSignup() {
         </div>
         
         <div className="renter-signup-msg">{msg}</div>
+        
+        {/* Credentials Popup */}
+        {showCredentials && (
+          <div className="credentials-popup">
+            <div className="credentials-content">
+              <h4>Your Login Details</h4>
+              <div className="credential-item">
+                <strong>Email:</strong> {savedCredentials.email}
+              </div>
+              <div className="credential-item">
+                <strong>Password:</strong> {savedCredentials.password}
+              </div>
+              <button 
+                className="close-popup-btn"
+                onClick={() => setShowCredentials(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

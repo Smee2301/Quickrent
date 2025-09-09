@@ -397,19 +397,10 @@ export default function EditVehicle() {
           </div>
   <br></br>
           <div>
-            <label>Features</label>
+            <label>Vehicle Features</label>
             <div className="features-grid">
               {[
-                "AC","GPS",
-                "Bluetooth",
-                "USB Charger","Child Seat",
-                "Roof Rack",
-                "Alloy Wheels",
-                "Fog Lights",
-                "Reverse Camera",
-                "Parking Sensors",
-                "Sunroof",
-                "Leather Seats",
+                "AC","GPS","Music System","Airbags","Bluetooth",
               ].map((feature) => (
                 <label key={feature} className="feature-checkbox">
                   <input

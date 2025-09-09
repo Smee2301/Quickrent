@@ -7,7 +7,14 @@ const path = require('path');
 
 router.get('/', async (req, res) => {
   try {
-    const vehicles = await Vehicle.find().sort({ createdAt: -1 });
+    const { ownerId } = req.query;
+    let query = {};
+    
+    if (ownerId) {
+      query.ownerId = ownerId;
+    }
+    
+    const vehicles = await Vehicle.find(query).sort({ createdAt: -1 });
     res.json(vehicles);
   } catch (error) {
     console.error('Error fetching vehicles:', error);

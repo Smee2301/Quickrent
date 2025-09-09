@@ -15,29 +15,29 @@
     min-height: 100vh;
     background: url("/ownerdash.jpg")  center center fixed;
     background-size: cover;
-    padding: 20px;
+    padding-bottom: 20px;
   }
   
   /* Navbar (Upload Documents style) */
   .navbar1 {
-  background-color: #fdfeff;
-  padding: 15px 15px;
-  display: flex;
-  align-items: center;
-  justify-content:space-between; /* logo + text stay aligned left */
-  gap: 900px; /* space between logo and title */
-  border-radius: 16px;
-  color: #2c2788;
+    background-color: #fdfeff;
+    padding-bottom:  3px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    gap: 800px; 
+    color: #2c2788;
 }
 
 .navbar1 img.logo {
-  height: 60px;
-  flex-shrink: 0; /* keep logo fixed size */
+  height: 70px;
+  padding-top: 10px;
 }
 
 .navbar1 h1 {
   margin: 0;
-  font-size: 22px;
   font-weight: 600;
 }
 

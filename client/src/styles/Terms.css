@@ -1,0 +1,107 @@
+/* ===========================
+   Global Styling
+=========================== */
+.terms-container {
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background: #fff;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 70px 20px;
+}
+
+/* ===========================
+   Hero Section
+=========================== */
+.terms-hero {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  padding: 10px 20px;
+  text-align: center;
+}
+
+.terms-hero h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* ===========================
+   Content Section
+=========================== */
+.terms-content section {
+  margin-bottom: 70px;
+}
+
+.terms-content h2 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.terms-content ul {
+  padding-left: 20px;
+}
+
+.terms-content li {
+  margin: 10px 0;
+  font-size: 1.1rem;
+  color: #444;
+}
+
+.terms-content p {
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.7;
+  max-width: 800px;
+  margin: 0 auto 25px;
+  text-align: center;
+}
+
+/* ===========================
+   Links
+=========================== */
+.terms-content a {
+  color: #667eea;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.terms-content a:hover {
+  color: #764ba2;
+  text-decoration: underline;
+}
+
+
+/* ===========================
+   Responsive Design
+=========================== */
+@media (max-width: 1024px) {
+  .terms-content h2 {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .terms-hero h1 {
+    font-size: 2.2rem;
+  }
+
+  .terms-content h2 {
+    font-size: 1.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .terms-hero {
+    padding: 60px 20px;
+  }
+
+  .terms-container {
+    padding: 40px 20px;
+  }
+}

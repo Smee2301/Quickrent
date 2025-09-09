@@ -138,10 +138,10 @@ export default function OwnerDashboard(){
 							<span className="badge pending">{stats.pendingRequests}</span>
 						)}
 					</Link>
-					<Link to="/owner/earnings">
+					{/* <Link to="/owner/Earningsummery">
 						<i className="fas fa-wallet"></i> 
 						<span>Earnings Summary</span>
-					</Link>
+					</Link> */}
 					<Link to="/owner/Paymenthistory">
 						<i className="fas fa-chart-bar"></i> 
 						<span>Payment History</span>
@@ -150,25 +150,21 @@ export default function OwnerDashboard(){
 
 				<div className="nav-section-title">Account & Security</div>
 				<div className="nnav-links">
-					<Link to="/owner/verification">
+					{/* <Link to="/owner/Owneridver">
 						<i className="fas fa-id-badge"></i> 
 						<span>Identity Verification</span>
-					</Link>
+					</Link> */}
 					<Link to="/owner/Ownerdetails">
 						<i className="fas fa-user-circle"></i> 
 						<span>Owner Details</span>
 					</Link>
-					<Link to="/owner/Securitysetting">
+					<Link to="/owner/security-settings">
 						<i className="fas fa-lock"></i> 
 						<span>Security Settings</span>
 					</Link>
 					<Link to="/owner/Ologhistory">
 						<i className="fas fa-history"></i> 
 						<span>Login History</span>
-					</Link>
-					<Link to="/change-password">
-						<i className="fas fa-key"></i> 
-						<span>Change Password</span>
 					</Link>
 				</div>
 			</nav>
@@ -177,7 +173,7 @@ export default function OwnerDashboard(){
 				<header>
 					<div className="header-content">
 						<div className="welcome-section">
-							<h1>Welcome back, {user?.name || 'Vehicle Owner'}! 👋</h1>
+							<h1>Hello, {user?.name || 'Vehicle Owner'}! 👋</h1>
 							<p>Here's what's happening with your vehicles today</p>
 						</div>
 							{/* <button className="btn-refresh" onClick={loadDashboardStats}>
@@ -222,33 +218,29 @@ export default function OwnerDashboard(){
 							<span className="notification-dot"></span>
 						)}
 					</Link>
-					<Link to="/owner/earnings" className="card" aria-label="Earnings Summary">
+					{/* <Link to="/owner/Earningsummery" className="card" aria-label="Earnings Summary">
 						<i className="fas fa-wallet"></i>
 						<span>Earnings Summary</span>
-					</Link>
+					</Link> */}
 					<Link to="/owner/Paymenthistory" className="card" aria-label="Payment History">
 						<i className="fas fa-chart-bar"></i>
 						<span>Payment History</span>
 					</Link>
-					<Link to="/owner/verification" className="card" aria-label="Identity Verification">
+					{/* <Link to="/owner/Owneridver" className="card" aria-label="Identity Verification">
 						<i className="fas fa-id-badge"></i>
 						<span>Identity Verification</span>
-					</Link>
+					</Link> */}
 					<Link to="/owner/Ownerdetails" className="card" aria-label="Owner Details">
 						<i className="fas fa-user-circle"></i>
 						<span>Owner Details</span>
 					</Link>
-					<Link to="/owner/Securitysetting" className="card" aria-label="Security Settings">
+					<Link to="/owner/security-settings" className="card" aria-label="Security Settings">
 						<i className="fas fa-lock"></i>
 						<span>Security Settings</span>
 					</Link>
 					<Link to="/owner/Ologhistory" className="card" aria-label="Login History">
 						<i className="fas fa-history"></i>
 						<span>Login History</span>
-					</Link>
-					<Link to="/change-password" className="card" aria-label="Change Password">
-						<i className="fas fa-key"></i>
-						<span>Change Password</span>
 					</Link>
 					<button className="card logout-card" onClick={handleLogout} aria-label="Logout">
 						<i className="fas fa-sign-out-alt"></i>

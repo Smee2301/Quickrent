@@ -1,0 +1,242 @@
+:root {
+    --primary: #004aad;
+    --accent: #2c2788;
+    --light: #f5f7fb;
+    --card-bg: #fff;
+    --rounded: 14px;
+  }
+  
+  .rps-page {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding-bottom: 20px;
+    background: url("/renterdashbord.webp") no-repeat center center fixed;
+    color: #222;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  
+  
+  .rps-navbar {
+    background: hwb(217 94% 0% / 0.95);
+    padding-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .rps-navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .rps-logo {
+    height: 55px;
+  }
+  
+  .rps-navbar h1 {
+    margin: 0;
+    font-size: 25px;
+    font-weight: 600;
+  }
+  
+  /* Layout */
+  .rps-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 30px;
+  }
+  
+  /* Sidebar */
+  .rps-sidebar {
+    background: var(--card-bg);
+    border-radius: var(--rounded);
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  
+  .rps-profile-pic {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--primary);
+    margin-bottom: 16px;
+  }
+  
+  .rps-upload {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 18px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.3s;
+  }
+  
+  .rps-upload:hover {
+    background: #013a87;
+  }
+  
+  .rps-sidebar input {
+    display: none;
+  }
+  
+  /* Main Content */
+  .rps-main {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+  
+  .rps-card {
+    background: var(--card-bg);
+    border-radius: var(--rounded);
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  
+  .rps-card h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 12px;
+  }
+  
+  .rps-card h2 i {
+    color: var(--primary);
+  }
+  
+  .rps-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  
+  .rps-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .rps-group label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #444;
+  }
+  
+  .rps-group input,
+  .rps-group select,
+  .rps-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 14px;
+    background: #fff;
+    transition: border 0.3s;
+  }
+  
+  .rps-group input:focus,
+  .rps-group select:focus,
+  .rps-group textarea:focus {
+    border: 1px solid var(--primary);
+    outline: none;
+  }
+  
+  .rps-group textarea {
+    resize: none;
+  }
+  
+  .rps-fullwidth {
+    grid-column: 1 / span 2;
+  }
+  
+  /* Save Button */
+  .rps-save {
+    text-align: right;
+  }
+  
+  .rps-btn {
+    padding: 14px 32px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .rps-btn:hover {
+    background: #013a87;
+  }
+  
+  /* Readonly fields */
+  .rps-readonly {
+    background-color: #f5f5f5 !important;
+    color: #666 !important;
+    cursor: not-allowed !important;
+    border: 1px solid #ddd !important;
+  }
+
+  /* Success message */
+  .rps-success-message {
+    background: #d4edda;
+    color: #155724;
+    padding: 16px 20px;
+    border-radius: 10px;
+    border: 2px solid #28a745;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 16px;
+    animation: slideIn 0.3s ease-out;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+  }
+
+  .rps-success-message i {
+    color: #28a745;
+    font-size: 18px;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive */
+  @media (max-width: 900px) {
+    .rps-container {
+      grid-template-columns: 1fr;
+    }
+    .rps-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  

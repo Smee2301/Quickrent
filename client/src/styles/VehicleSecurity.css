@@ -2,17 +2,15 @@
   min-height: 100vh;
   background: url("/ownerdash.jpg")  center center fixed;
   background-size: cover;
-  padding: 20px;
+  padding-bottom: 20px;
 }
 
 .n {
   background-color: #fdfeff;
-  padding: 5px 15px;
   display: flex;
-  border-radius: 16px;
   align-items: center;
   justify-content:space-between; /* logo + text stay aligned left */
-  gap: 800px; /* space between logo and title */
+  gap: 850px; /* space between logo and title */
   color: #2c2788;
   top: 0;
   z-index: 1000;
@@ -44,7 +42,7 @@
 }
 
 .header-actions h2 {
-  color: white;
+  color: rgb(38, 36, 109);
   font-size: 2rem;
   font-weight: 600;
   margin: 0;
@@ -192,15 +190,15 @@
 }
 
 .vehicle-info h4 {
-  margin: 0 0 0.25rem 0;
-  font-size: 1rem;
+  margin: 0 0 0.1rem 0;
+  font-size: 0.9rem;
   font-weight: 600;
   color: #333;
 }
 
 .vehicle-info p {
-  margin: 0 0 0.25rem 0;
-  font-size: 0.9rem;
+  margin: 0 0 0.15rem 0;
+  font-size: 0.8rem;
   color: #666;
 }
 

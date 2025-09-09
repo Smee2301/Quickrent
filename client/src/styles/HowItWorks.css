@@ -1,0 +1,295 @@
+/* ===========================
+   Global Page Styling
+=========================== */
+.how-it-works-page {
+  font-family: "Poppins", sans-serif;
+  line-height: 1.7;
+  color: #333;
+  background: #fafafa;
+}
+
+/* ===========================
+   Hero Section
+=========================== */
+.how-hero {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+}
+
+.how-hero-content h5 {
+  font-size: 3.2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.how-hero-subtitle {
+  font-size: 1.3rem;
+  max-width: 650px;
+  margin: 0 auto;
+  opacity: 0.95;
+}
+
+/* ===========================
+   Main Container
+=========================== */
+.how-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 70px 20px;
+}
+
+/* ===========================
+   Section Styling
+=========================== */
+.how-section {
+  margin-bottom: 90px;
+}
+
+.how-section h2 {
+  font-size: 2.6rem;
+  font-weight: 600;
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.how-section h2::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  margin: 15px auto 0;
+  border-radius: 3px;
+}
+
+.section-subtitle {
+  font-size: 1.15rem;
+  color: #666;
+  text-align: center;
+  max-width: 650px;
+  margin: 0 auto 60px;
+  line-height: 1.6;
+}
+
+/* ===========================
+   Steps Section
+=========================== */
+.steps-container {
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 50px;
+  padding: 30px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+.step-number {
+  width: 65px;
+  height: 65px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 1.6rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 25px;
+  flex-shrink: 0;
+}
+
+.step-content h3 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 12px;
+}
+
+.step-content p {
+  color: #555;
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+
+.step-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.step-content li {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 8px;
+  padding-left: 22px;
+  position: relative;
+}
+
+.step-content li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #28a745;
+  font-weight: bold;
+}
+
+/* ===========================
+   Safety Section
+=========================== */
+.safety-section {
+  background: #f8f9fc;
+  padding: 70px 40px;
+  border-radius: 20px;
+}
+
+.safety-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 35px;
+  margin-top: 40px;
+}
+
+.safety-item {
+  background: #fff;
+  padding: 35px 25px;
+  border-radius: 18px;
+  text-align: center;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.07);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.safety-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+}
+
+.safety-icon {
+  width: 85px;
+  height: 85px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px;
+}
+
+.safety-icon i {
+  font-size: 2rem;
+  color: #fff;
+}
+
+.safety-item h3 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #2c3e50;
+}
+
+.safety-item p {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* ===========================
+   FAQ Section
+=========================== */
+.faq-section {
+  background: #fff;
+  padding: 70px 40px;
+  border-radius: 20px;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.07);
+}
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.faq-item {
+  background: #f9f9ff;
+  padding: 25px;
+  border-radius: 15px;
+  border-left: 5px solid #667eea;
+  transition: background 0.3s ease;
+}
+
+.faq-item:hover {
+  background: #f0f2ff;
+}
+
+.faq-item h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 12px;
+}
+
+.faq-item p {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* ===========================
+   Responsive Design
+=========================== */
+@media (max-width: 768px) {
+  .how-hero-content h1 {
+    font-size: 2.2rem;
+  }
+
+  .how-hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .step-item {
+    flex-direction: column;
+    text-align: center;
+    padding: 22px;
+  }
+
+  .step-number {
+    margin: 0 auto 20px;
+  }
+
+  .safety-grid,
+  .faq-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .how-hero {
+    padding: 70px 20px;
+  }
+
+  .how-container {
+    padding: 40px 20px;
+  }
+
+  .safety-section,
+  .faq-section {
+    padding: 45px 25px;
+  }
+}

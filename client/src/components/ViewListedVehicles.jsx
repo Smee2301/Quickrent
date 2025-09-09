@@ -80,138 +80,136 @@ export default function ViewListedVehicles() {
 
   if (loading) {
     return (
-      <div className="view-vehicles-page">
-        <div className="containerr">
-          <div className="loading">Loading vehicles...</div>
+      <div className="vlv-page">
+        <div className="vlv-container">
+          <div className="vlv-loading">Loading vehicles...</div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="view-vehicles-page">
-      <div className="navbarr">
-        <img src="/logo1.png" alt="QuickRent Logo" className="logo" />
+    <div className="vlv-page">
+      <div className="vlv-navbar">
+        <img src="/logo1.png" alt="QuickRent Logo" className="vlv-logo" />
         <h2>QuickRent - Listed Vehicles</h2>
       </div>
 
       <br />
 
-      <div className="containerr">
-        {error && <div className="error-message">{error}</div>}
+      <div className="vlv-container">
+        {error && <div className="vlv-error">{error}</div>}
 
-        <div className="actions">
-          <Link to="/owner/add-vehicle" className="btn-add">
+        <div className="vlv-actions">
+          <Link to="/owner/add-vehicle" className="vlv-btn-add">
             <i className="fa-solid fa-plus"></i>
             Add New Vehicle
           </Link>
-          <Link to="/owner/dashboard" className="btn-back">
+          <Link to="/owner/dashboard" className="vlv-btn-back">
             <i className="fa-solid fa-arrow-left"></i>
             Back to Dashboard
           </Link>
         </div>
 
         {vehicles.length === 0 ? (
-          <div className="no-vehicles">
+          <div className="vlv-no-vehicles">
             <i className="fas fa-car"></i>
             <h3>No vehicles found</h3>
             <p>Start by adding your first vehicle</p>
-            <Link to="/owner/add-vehicle" className="btn-primary">
+            <Link to="/owner/add-vehicle" className="vlv-btn-primary">
               <i className="fas fa-plus"></i> Add Vehicle
             </Link>
           </div>
         ) : (
-          <div className="vehicles-grid">
+          <div className="vlv-grid">
             {vehicles.map((vehicle) => (
-              <div key={vehicle._id} className="vehicle-card">
+              <div key={vehicle._id} className="vlv-card">
                 {/* Vehicle Image */}
-                <div className="vehicle-image-container">
+                <div className="vlv-image-container">
                   <img
                     src={
                       vehicle.photo
-                        ? `/uploads/${vehicle.photo}`
-                        : "/default-car.jpg"
+                        ? `http://localhost:4000/uploads/${vehicle.photo}`
+                        : "/vlist.jpeg"
                     }
                     alt={`${vehicle.brand} ${vehicle.model}`}
-                    className="vehicle-image"
+                    className="vlv-image"
                     onError={(e) => {
-                      if (!e.target.src.includes("default-car.jpg")) {
-                        e.target.src = "/default-car.jpg";
+                      if (!e.target.src.includes("vlist.jpeg")) {
+                        e.target.src = "/vlist.jpeg";
                       }
                     }}
                   />
-                  <div className="vehicle-status">
-                    <span className="status-badge available">Available</span>
+                  <div className="vlv-status">
+                    <span className="vlv-status-badge">Available</span>
                   </div>
                 </div>
 
                 {/* Vehicle Info */}
-                <div className="vehicle-info">
-                  <div className="vehicle-header">
+                <div className="vlv-info">
+                  <div className="vlv-header">
                     <h3>
                       {vehicle.brand} {vehicle.model}
                     </h3>
-                    <span className="vehicle-year">{vehicle.year}</span>
+                    <span className="vlv-year">{vehicle.year}</span>
                   </div>
 
-                  <div className="vehicle-details">
-                    <div className="detail-item">
-                      <span className="detail-label">Type:</span>
-                      <span className="detail-value">{vehicle.type}</span>
+                  <div className="vlv-details">
+                    <div className="vlv-detail-item">
+                      <span className="vlv-detail-label">Type:</span>
+                      <span className="vlv-detail-value">{vehicle.type}</span>
                     </div>
 
-                    <div className="detail-item">
-                      <span className="detail-label">Color:</span>
-                      <span className="detail-value">{vehicle.color}</span>
+                    <div className="vlv-detail-item">
+                      <span className="vlv-detail-label">Color:</span>
+                      <span className="vlv-detail-value">{vehicle.color}</span>
                     </div>
 
-                    <div className="detail-item">
-                      <span className="detail-label">Number:</span>
-                      <span className="detail-value">
+                    <div className="vlv-detail-item">
+                      <span className="vlv-detail-label">Number:</span>
+                      <span className="vlv-detail-value">
                         {vehicle.vehicleNumber}
                       </span>
                     </div>
                   </div>
 
                   {/* Pricing Section */}
-                  <div className="pricing-section">
-                    <div className="price-item">
-                      <span className="price-label">Rent/Hour:</span>
-                      <span className="price-value">₹{vehicle.rentPerHour}</span>
+                  <div className="vlv-pricing">
+                    <div className="vlv-price-item">
+                      <span className="vlv-price-label">Rent/Hour:</span>
+                      <span className="vlv-price-value">₹{vehicle.rentPerHour}</span>
                     </div>
-                    <div className="price-item">
-                      <span className="price-label">Deposit:</span>
-                      <span className="price-value">
-                        ₹{vehicle.securityDeposit}
-                      </span>
+                    <div className="vlv-price-item">
+                      <span className="vlv-price-label">Deposit:</span>
+                      <span className="vlv-price-value">₹{vehicle.securityDeposit}</span>
                     </div>
                   </div>
 
                   {/* Listed Date */}
-                  <div className="listed-date">
-                    <span className="date-label">Listed:</span>
-                    <span className="date-value">
+                  <div className="vlv-date">
+                    <span className="vlv-date-label">Listed:</span>
+                    <span className="vlv-date-value">
                       {formatDate(vehicle.createdAt)}
                     </span>
                   </div>
 
                   {/* Actions */}
-                  <div className="card-actions">
+                  <div className="vlv-card-actions">
                     <Link
                       to={`/owner/vehiclefulldetail/${vehicle._id}`}
-                      className="btn-view"
+                      className="vlv-btn-view"
                     >
                       <i className="fas fa-eye"></i> Full Details
                     </Link>
                     <Link
                       to={`/owner/edit-vehicle/${vehicle._id}`}
-                      className="btn-edit"
+                      className="vlv-btn-edit"
                     >
                       <i className="fas fa-edit"></i> Edit
                     </Link>
                     <button
                       onClick={() => deleteVehicle(vehicle._id)}
-                      className="btn-delete"
+                      className="vlv-btn-delete"
                     >
                       <i className="fas fa-trash"></i> Delete
                     </button>

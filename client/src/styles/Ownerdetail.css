@@ -10,17 +10,20 @@
     min-height: 100vh;
     background: url("/ownerdash.jpg") no-repeat center center fixed;
     background-size: cover;
-    padding: 20px;
+    padding-bottom: 20px;
   }
   
   /* Navbar */
   .od-navbar {
     background-color: #fdfeff;
-    border-radius: 16px;
-    padding: 15px 30px;
+    padding-top:  3px;  
+    margin-bottom: 20px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    gap: 800px; 
     color: #2c2788;
   }
   .od-logo {
@@ -28,7 +31,6 @@
   }
   .od-navbar h1 {
     margin: 0;
-    font-size: 22px;
     font-weight: 600;
   }
   
@@ -40,14 +42,12 @@
     background: var(--card-bg);
     border-radius: var(--rounded);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 30px;
   }
   
   /* Profile Layout */
 .profile-layout {
-  display: flex;
+  display: grid;
+  grid-template-columns: 320px 1fr;
   gap: 30px;
   margin-top: 20px;
 }
@@ -129,11 +129,9 @@
 
 /* Right Box - Form */
 .profile-right-box {
-  flex: 1;
   background: white;
   border-radius: 12px;
-  padding: 30px;
-  padding-left: 40px;
+  padding: 30px 30px 20px 30px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
@@ -177,7 +175,7 @@
     color: #333;
   }
   .od-form-group input {
-    width: 130%;
+    width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 8px;

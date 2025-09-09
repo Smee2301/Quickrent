@@ -52,6 +52,7 @@ a {
 
 .renter-nav-section-title {
   padding: 15px 25px 5px;
+  
   font-size: 13px;
   font-weight: 700;
   color: #ffd21e;
@@ -93,41 +94,74 @@ a {
   color: #ffd21e;
 }
 
+/* Logout button in sidebar */
+.renter-logout-btn {
+  display: flex;
+  align-items: center;
+  padding: 15px 25px;
+  font-weight: 500;
+  font-size: 16px;
+  border: none;
+  background: none;
+  color: #fff;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  border-left: 4px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.renter-logout-btn i {
+  margin-right: 15px;
+  min-width: 20px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.renter-logout-btn:hover {
+  background-color: #dc3545;
+  border-left-color: #ffd21e;
+  color: #fff;
+}
+
+.renter-logout-btn:hover i {
+  color: #ffd21e;
+}
+
 /* Main Content */
 .renter-main-content {
   margin-left: 280px;
-  padding: 40px 50px;
+  padding-top: 40px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
 }
 
+/* Header Navigation */
 .renter-header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between; /* Dashboard left | Username + Logout right */
   align-items: center;
   margin-bottom: 40px;
 }
 
-.renter-user-info {
-  font-weight: 500;
-  margin-right: 20px;
+.renter-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #222;
+  margin: 0;
+}
+
+.renter-right {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* space between username and button */
+}
+
+.renter-username {
   font-size: 16px;
-}
-
-.renter-btn-logout {
-  background-color: #b3c8e89a;
-  color: #003580;
-  border: 1px solid #fff;
-  padding: 10px 20px;
-  font-weight: 700;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.renter-btn-logout:hover {
-  background-color: #5f97f6;
+  font-weight: 500;
+  color: #333;
 }
 
 .renter-title {
@@ -169,6 +203,31 @@ a {
 .renter-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  color: #0056b3;
+}
+
+/* Logout button as card - same styling as other cards */
+.renter-card button {
+  background: none;
+  border: none;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: inherit;
+  color: inherit;
+}
+
+.renter-card button i {
+  font-size: 40px;
+  margin-bottom: 10px;
+  color: #260f7e;
+}
+
+.renter-card button:hover i {
   color: #0056b3;
 }
 

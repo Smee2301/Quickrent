@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/Ownerdetail.css";
 
 export default function Ownerdetail() {
-  const [profileImage, setProfileImage] = useState("default-profile.png");
+  const [profileImage, setProfileImage] = useState("/logo1.png");
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -18,13 +18,13 @@ export default function Ownerdetail() {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [savedDetails, setSavedDetails] = useState(null);
-  const [showSavedInfo, setShowSavedInfo] = useState(false);
   const [activeTab, setActiveTab] = useState("profile");
   const navigate = useNavigate();
 
   useEffect(() => {
     loadUserData();
     loadLoginHistory();
+    calculateTotals();
   }, []);
 
   const loadUserData = async () => {
@@ -78,7 +78,7 @@ export default function Ownerdetail() {
       });
 
       if (userData.profileImage) {
-        setProfileImage(`/uploads/${userData.profileImage}`);
+        setProfileImage(`http://localhost:4000/uploads/${userData.profileImage}`);
       }
     } catch (error) {
       console.error("Error loading user data:", error);
@@ -104,6 +104,73 @@ export default function Ownerdetail() {
       }
     } catch (error) {
       console.error("Error loading login history:", error);
+    }
+  };
+
+  const calculateTotals = async () => {
+    try {
+      const token = localStorage.getItem("qr_token");
+      const user = JSON.parse(localStorage.getItem("qr_user") || "{}");
+      
+      if (!token || !user.id) {
+        console.log("No token or user ID found");
+        return;
+      }
+
+      console.log("Calculating totals for user:", user.id);
+
+      // Calculate total vehicles - use the same endpoint as ViewListedVehicles
+      const vehiclesResponse = await fetch(`http://localhost:4000/api/vehicles/owner/${user.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      
+      let totalVehicles = 0;
+      if (vehiclesResponse.ok) {
+        const vehicles = await vehiclesResponse.json();
+        totalVehicles = vehicles.length;
+        console.log("Found vehicles:", vehicles.length, vehicles);
+      } else {
+        console.error("Vehicles API error:", vehiclesResponse.status, await vehiclesResponse.text());
+      }
+
+      // Calculate total bookings
+      const bookingsResponse = await fetch(`http://localhost:4000/api/bookings/owner/${user.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      
+      let totalBookings = 0;
+      let totalEarnings = 0;
+      
+      if (bookingsResponse.ok) {
+        const bookings = await bookingsResponse.json();
+        totalBookings = bookings.length;
+        console.log("Found bookings:", bookings.length, bookings);
+        
+        // Calculate total earnings (sum of all completed bookings)
+        totalEarnings = bookings
+          .filter(booking => booking.status === 'completed' || booking.status === 'confirmed')
+          .reduce((sum, booking) => sum + (booking.totalAmount || 0), 0);
+      } else {
+        console.error("Bookings API error:", bookingsResponse.status, await bookingsResponse.text());
+        // No fallback. If API fails or returns none, keep zeroes so UI reflects reality.
+      }
+
+      console.log("Calculated totals:", { totalVehicles, totalBookings, totalEarnings });
+
+      // Update form data with calculated totals
+      setFormData(prev => ({
+        ...prev,
+        totalVehicles,
+        totalBookings,
+        totalEarnings
+      }));
+
+    } catch (error) {
+      console.error("Error calculating totals:", error);
     }
   };
 
@@ -189,10 +256,10 @@ export default function Ownerdetail() {
 
       // Update profile image display
       if (responseData.profileImage) {
-        setProfileImage(`/uploads/${responseData.profileImage}`);
+        setProfileImage(`http://localhost:4000/uploads/${responseData.profileImage}`);
       }
 
-      setMessage("✅ Profile updated successfully!");
+      setMessage("✅ Details saved successfully!");
       
       // Save the updated details to show in left panel
       setSavedDetails({
@@ -206,10 +273,10 @@ export default function Ownerdetail() {
         totalEarnings: formData.totalEarnings,
         profileImage: responseData.profileImage || profileImage
       });
-      setShowSavedInfo(true);
       
-      // Refresh the page data
+      // Refresh the page data and recalculate totals
       loadUserData();
+      calculateTotals();
       
     } catch (error) {
       console.error("Error updating profile:", error);
@@ -249,72 +316,10 @@ export default function Ownerdetail() {
       {/* Container */}
       <div className="od-details-container">
         {/* Left Side Panel - Saved Information */}
-        {showSavedInfo && savedDetails && (
-          <div className="od-left-panel">
-            <div className="saved-info-header">
-              <h3><i className="fas fa-check-circle"></i> Saved Information</h3>
-              <button 
-                className="close-panel-btn"
-                onClick={() => setShowSavedInfo(false)}
-              >
-                <i className="fas fa-times"></i>
-              </button>
-            </div>
-            
-            <div className="saved-info-content">
-              <div className="saved-profile-image">
-                <img 
-                  src={savedDetails.profileImage} 
-                  alt="Profile" 
-                  className="saved-profile-img" 
-                />
-              </div>
-              
-              <div className="saved-info-item">
-                <span className="info-label">Name:</span>
-                <span className="info-value">{savedDetails.fullName}</span>
-              </div>
-              
-              <div className="saved-info-item">
-                <span className="info-label">Email:</span>
-                <span className="info-value">{savedDetails.email}</span>
-              </div>
-              
-              <div className="saved-info-item">
-                <span className="info-label">Phone:</span>
-                <span className="info-value">{savedDetails.phone}</span>
-              </div>
-              
-              <div className="saved-info-item">
-                <span className="info-label">City:</span>
-                <span className="info-value">{savedDetails.city}</span>
-              </div>
-              
-              <div className="saved-info-item">
-                <span className="info-label">Joined:</span>
-                <span className="info-value">{formatDate(savedDetails.joinDate)}</span>
-              </div>
-              
-              <div className="saved-info-item">
-                <span className="info-label">Vehicles:</span>
-                <span className="info-value">{savedDetails.totalVehicles}</span>
-              </div>
-              
-              <div className="saved-info-item">
-                <span className="info-label">Bookings:</span>
-                <span className="info-value">{savedDetails.totalBookings}</span>
-              </div>
-              
-              <div className="saved-info-item">
-                <span className="info-label">Earnings:</span>
-                <span className="info-value">{formatCurrency(savedDetails.totalEarnings)}</span>
-              </div>
-            </div>
-          </div>
-        )}
+        {/* Left sidebar removed as requested */}
 
         {/* Main Content */}
-        <div className={`od-main-content ${showSavedInfo ? 'with-panel' : ''}`}>
+        <div className={`od-main-content`}>
           {/* Tabs */}
           <div className="od-tabs">
             <button 
@@ -468,7 +473,7 @@ export default function Ownerdetail() {
                         <small>Auto-calculated</small>
                       </div>
                       
-                      <div className="od-form-groupp">
+                      {/* <div className="od-form-groupp">
                         <label htmlFor="totalEarnings">
                           <i className="fas fa-rupee-sign"></i> Total Earnings
                         </label>
@@ -480,7 +485,7 @@ export default function Ownerdetail() {
                           disabled
                         />
                         <small>Auto-calculated</small>
-                      </div>
+                      </div> */}
                     </div>
 
                     <div className="form-actions">
@@ -499,6 +504,29 @@ export default function Ownerdetail() {
                           </>
                         )}
                       </button>
+                      
+                      <button 
+                        type="button" 
+                        className="od-refresh-btn"
+                        onClick={calculateTotals}
+                        style={{ 
+                          marginLeft: '10px', 
+                          background: '#6c757d', 
+                          color: 'white', 
+                          border: 'none', 
+                          padding: '12px 20px', 
+                          borderRadius: '8px', 
+                          cursor: 'pointer' 
+                        }}
+                      >
+                        <i className="fas fa-sync-alt"></i> Refresh Totals
+                      </button>
+                      
+                      {!isLoading && message && !message.includes('❌') && (
+                        <div style={{ marginTop: '10px', color: '#16a34a', fontWeight: 600 }}>
+                          Details saved successfully
+                        </div>
+                      )}
                     </div>
                   </form>
                 </div>

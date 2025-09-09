@@ -19,12 +19,25 @@ import Ologhistory from './components/Ologhistory.jsx';
 import Profile from './components/Profile.jsx';
 import Logout from './components/Logout.jsx';
 import Layout from './components/Layout.jsx';
+import Terms from './components/Terms.jsx';
 import ViewListedVehicles from './components/ViewListedVehicles.jsx';
 import ForgotPassword from './components/ForgotPassword.jsx';
 import ForgotPasswordrent from './components/ForgotPasswordrent.jsx';
 import EditVehicle from './components/EditVehicle.jsx';
-import Securitysetting from './components/Securitysetting.jsx';
-import Rentverify from './components/Rentverify.jsx'; 
+import Owneridver from './components/Owneridver.jsx';
+import Earningsummery from './components/Earningsummery.jsx';
+import SecuritySettings from './components/SecuritySettings.jsx';
+import Renterbrowse from './components/Renterbrowse.jsx';
+import Rentermybooking from './components/Rentermybooking.jsx';
+import Rentalhistory from './components/Rentalhistory.jsx';
+import Rentsavehicle from './components/Rentsavehicle.jsx';
+import Rentprofset from './components/Rentprofset.jsx';
+import Rentgetsup from './components/Rentgetsup.jsx';
+import Rentidverify from './components/Rentidverify.jsx';
+import About from './components/About.jsx';
+import HowItWorks from './components/HowItWorks.jsx';
+import ContactUs from './components/ContactUs.jsx';
+
 
 
 
@@ -34,6 +47,10 @@ export default function App() {
     <Layout>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/how-it-works" element={<HowItWorks />} />
+        <Route path="/contact-us" element={<ContactUs />} />
+        <Route path="/terms" element={<Terms />} />
         <Route path="/owner/login" element={<OwnerLogin />} />
         <Route path="/owner/signup" element={<OwnerSignup />} />
         <Route path="/owner/add-vehicle" element={<AddVehicle />} />
@@ -56,8 +73,16 @@ export default function App() {
         <Route path="/owner/Paymenthistory" element={<Paymenthistory/>} />
         <Route path="/owner/vehicle-security" element={<VehicleSecurity/>} />
         <Route path="/owner/Ologhistory" element={<Ologhistory/>} />
-        <Route path="/owner/Securitysetting" element={<Securitysetting/>} />
-        <Route path="/renter/Rentverify" element={<Rentverify />} />
+        <Route path="/owner/Owneridver" element={<Owneridver/>}  />
+        <Route path="/owner/Earningsummery" element={<Earningsummery/>} />
+        <Route path="/owner/security-settings" element={<SecuritySettings/>} />
+        <Route path="/renter/browse-vehicles" element={<Renterbrowse/>} />
+        <Route path="/renter/my-bookings" element={<Rentermybooking/>} />
+        <Route path="/rental-history" element={<Rentalhistory/>} />
+        <Route path="/saved-vehicles" element={<Rentsavehicle/>} />
+        <Route path="/profile-settings" element={<Rentprofset/>} />
+        <Route path="/support" element={<Rentgetsup/>} />
+        <Route path="/renter/Rentidverify" element={<Rentidverify />} />
       </Routes>
     </Layout>
   );

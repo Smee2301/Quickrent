@@ -130,13 +130,13 @@ export default function Fullvehicledetail() {
           <div className="vehicle-image-section">
             <img
               src={
-                vehicle.photo ? `/uploads/${vehicle.photo}` : "/default-car.jpg"
+                vehicle.photo ? `http://localhost:4000/uploads/${vehicle.photo}` : "/vlist.jpeg"
               }
               alt={`${vehicle.brand} ${vehicle.model}`}
               className="main-vehicle-image"
               onError={(e) => {
-                if (e.target.src.indexOf("default-car.jpg") === -1) {
-                  e.target.src = "/default-car.jpg"; // ✅ fallback only once
+                if (e.target.src.indexOf("vlist.jpeg") === -1) {
+                  e.target.src = "/vlist.jpeg"; // ✅ fallback only once
                 }
               }}
             />

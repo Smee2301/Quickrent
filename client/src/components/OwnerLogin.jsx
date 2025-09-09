@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/OwnerLogin.css";
 
@@ -7,9 +7,22 @@ export default function OwnerLogin() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [msg, setMsg] = useState("");
+  const [lastEmail, setLastEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("qr_last_owner_email");
+      if (stored) {
+        setLastEmail(stored);
+        if (!email) setEmail(stored);
+      }
+    } catch {}
+  }, []);
+
+  
 
   const validateForm = () => {
     const newErrors = {};
@@ -62,8 +75,9 @@ export default function OwnerLogin() {
 
       localStorage.setItem("qr_token", data.token);
       localStorage.setItem("qr_user", JSON.stringify(data.user));
+      try { localStorage.setItem("qr_last_owner_email", email); } catch {}
 
-      setMsg("Login successful! Redirecting...");
+      setMsg("Login successful! Redirecting...\nTip: Save your email/password securely and lock your device with a PIN.");
       setTimeout(() => {
         navigate("/owner/dashboard", { replace: true });
       }, 1000);

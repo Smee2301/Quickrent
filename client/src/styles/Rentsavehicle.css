@@ -1,0 +1,503 @@
+:root {
+  --primary: #004aad;
+  --accent: #e67e22;
+  --light: #f9f9f9;
+  --text: #222;
+  --card-bg: #ffffff;
+  --rounded: 16px;
+  --success: #27ae60;
+  --danger: #e74c3c;
+  --warning: #f39c12;
+}
+
+.rsv-page {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding-bottom: 20px;
+  background: url("/renterdashbord.webp") no-repeat center center fixed;
+  background-size: cover;
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* Navbar */
+.rsv-navbar {
+  background-color: hwb(217 94% 0% / 0.952);
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #2c2788;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.rsv-logo {
+  height: 55px;
+}
+
+.rsv-navbar h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* Container */
+.rsv-container {
+  max-width: 1400px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.rsv-title {
+  text-align: center;
+  margin-bottom: 30px;
+  color: var(--primary);
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.rsv-title i {
+  margin-right: 10px;
+  color: var(--danger);
+}
+
+/* Empty State */
+.rsv-empty {
+  text-align: center;
+  padding: 80px 20px;
+  background: var(--card-bg);
+  border-radius: var(--rounded);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.rsv-empty i {
+  font-size: 64px;
+  color: #ccc;
+  margin-bottom: 20px;
+}
+
+.rsv-empty h3 {
+  color: var(--primary);
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.rsv-empty p {
+  color: #666;
+  margin-bottom: 30px;
+  font-size: 16px;
+}
+
+.rsv-browse-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rsv-browse-btn:hover {
+  background: #003d8a;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 74, 173, 0.3);
+}
+
+/* Vehicle List */
+.rsv-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.rsv-card {
+  background: var(--card-bg);
+  border-radius: var(--rounded);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.rsv-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.rsv-image-container {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.rsv-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.rsv-card:hover .rsv-image-container img {
+  transform: scale(1.05);
+}
+
+.rsv-vehicle-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.rsv-status {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.rsv-status.available {
+  background: var(--success);
+  color: white;
+}
+
+.rsv-status.unavailable {
+  background: var(--danger);
+  color: white;
+}
+
+.rsv-content {
+  padding: 20px;
+}
+
+.rsv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.rsv-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.rsv-rating {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 14px;
+}
+
+.rsv-rating span:first-child {
+  font-weight: 600;
+  color: var(--warning);
+}
+
+.rsv-rating span:last-child {
+  color: #666;
+  font-size: 12px;
+}
+
+.rsv-details {
+  margin-bottom: 15px;
+}
+
+.rsv-details p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.rsv-highlight {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.rsv-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.rsv-feature-tag {
+  background: var(--light);
+  color: var(--primary);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.rsv-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.rsv-btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: 1;
+  justify-content: center;
+}
+
+.rsv-btn-book {
+  background: var(--primary);
+  color: white;
+}
+
+.rsv-btn-book:hover:not(:disabled) {
+  background: #003d8a;
+  transform: translateY(-2px);
+}
+
+.rsv-btn-book:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.rsv-btn-details {
+  background: var(--accent);
+  color: white;
+}
+
+.rsv-btn-details:hover {
+  background: #d35400;
+  transform: translateY(-2px);
+}
+
+.rsv-btn-remove {
+  background: var(--danger);
+  color: white;
+}
+
+.rsv-btn-remove:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+}
+
+/* Booking Modal */
+.rsv-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.rsv-modal-content {
+  background: var(--card-bg);
+  border-radius: var(--rounded);
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.rsv-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.rsv-modal-header h3 {
+  margin: 0;
+  color: var(--primary);
+}
+
+.rsv-modal-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #666;
+  padding: 5px;
+}
+
+.rsv-modal-close:hover {
+  color: var(--danger);
+}
+
+.rsv-modal-body {
+  padding: 20px;
+}
+
+.rsv-booking-form {
+  display: grid;
+  gap: 15px;
+}
+
+.rsv-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.rsv-form-group label {
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 5px;
+}
+
+.rsv-form-group input {
+  padding: 10px 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.rsv-form-group input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.rsv-calculate-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.rsv-calculate-btn:hover {
+  background: #d35400;
+}
+
+.rsv-cost-summary {
+  background: var(--light);
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary);
+}
+
+.rsv-cost-summary h4 {
+  margin: 0 0 10px 0;
+  color: var(--primary);
+}
+
+.rsv-cost-summary p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.rsv-total-cost {
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--success) !important;
+}
+
+.rsv-modal-footer {
+  display: flex;
+  gap: 10px;
+  padding: 20px;
+  border-top: 1px solid #e0e0e0;
+  justify-content: flex-end;
+}
+
+.rsv-btn-cancel,
+.rsv-btn-confirm {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.rsv-btn-cancel {
+  background: #ccc;
+  color: #666;
+}
+
+.rsv-btn-cancel:hover {
+  background: #bbb;
+}
+
+.rsv-btn-confirm {
+  background: var(--success);
+  color: white;
+}
+
+.rsv-btn-confirm:hover:not(:disabled) {
+  background: #229954;
+  transform: translateY(-2px);
+}
+
+.rsv-btn-confirm:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .rsv-container {
+    padding: 0 10px;
+  }
+  
+  .rsv-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .rsv-actions {
+    flex-direction: column;
+  }
+  
+  .rsv-modal-content {
+    width: 95%;
+    margin: 10px;
+  }
+  
+  .rsv-modal-footer {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .rsv-navbar {
+    padding: 10px 15px;
+  }
+  
+  .rsv-navbar h1 {
+    font-size: 18px;
+  }
+  
+  .rsv-title {
+    font-size: 24px;
+  }
+  
+  .rsv-card {
+    margin-bottom: 20px;
+  }
+}

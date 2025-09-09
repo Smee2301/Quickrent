@@ -1,0 +1,219 @@
+:root {
+    --qsupport-primary: #004aad;
+    --qsupport-accent: #e67e22;
+    --qsupport-light-bg: #f5f7fb;
+    --qsupport-card-bg: #fff;
+    --qsupport-rounded: 12px;
+  }
+  
+  .qsupport-body {
+    margin: 0;
+    padding-bottom: 20px;
+    font-family: 'Poppins', sans-serif;
+    background-color: rgb(217, 231, 249);
+    color: #333;
+    background-image: url("../assets/renterdashbord.webp");
+    background-repeat: no-repeat;
+    background-size: contain;
+    min-height: 100vh;
+    width: 100%;
+  }
+  
+  /* Navbar */
+  .qsupport-navbar {
+    background: hwb(217 94% 0% / 0.95);
+    padding: 14px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #eee;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  .qsupport-logo {
+    height: 50px;
+  }
+  
+  .qsupport-navbar h1 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--qsupport-primary);
+  }
+  
+  /* Hero Section */
+  .qsupport-hero {
+    background: var(--qsupport-card-bg);
+    text-align: center;
+    padding: 60px 20px;
+    margin: 20px auto;
+    max-width: 900px;
+    border-radius: var(--qsupport-rounded);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  .qsupport-hero h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: var(--qsupport-primary);
+  }
+  
+  .qsupport-searchbox {
+    display: flex;
+    max-width: 600px;
+    margin: auto;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .qsupport-searchbox input {
+    flex: 1;
+    padding: 12px 16px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+  }
+  
+  .qsupport-searchbox button {
+    background: var(--qsupport-primary);
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .qsupport-searchbox button:hover {
+    background: #003a8a;
+  }
+  
+  /* Quick Links */
+  .qsupport-links {
+    max-width: 900px;
+    margin: 30px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 24px;
+  }
+  
+  .qsupport-link {
+    background: var(--qsupport-card-bg);
+    padding: 20px;
+    flex: 1 1 200px;
+    text-align: center;
+    border-radius: var(--qsupport-rounded);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  .qsupport-link:hover {
+    transform: translateY(-4px);
+  }
+  
+  .qsupport-link i,
+  .qsupport-link svg {
+    font-size: 32px;
+    color: var(--qsupport-primary);
+    margin-bottom: 10px;
+  }
+  
+  .qsupport-link h3 {
+    margin: 8px 0;
+    font-size: 16px;
+  }
+  
+  .qsupport-link p {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  /* Support Form */
+  .qsupport-form {
+    max-width: 900px;
+    margin: 40px auto 60px;
+    background: var(--qsupport-card-bg);
+    padding: 30px;
+    border-radius: var(--qsupport-rounded);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  }
+  
+  .qsupport-form h3 {
+    margin-top: 0;
+    font-size: 18px;
+    color: var(--qsupport-primary);
+    margin-bottom: 20px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .qsupport-group {
+    margin-bottom: 20px;
+  }
+  
+  .qsupport-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .qsupport-group input,
+  .qsupport-group textarea,
+  .qsupport-group select {
+    width: 100%;
+    font-size: 14px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: border 0.3s;
+  }
+  
+  .qsupport-group input:focus,
+  .qsupport-group textarea:focus,
+  .qsupport-group select:focus {
+    border-color: var(--qsupport-primary);
+    outline: none;
+  }
+  
+  .qsupport-group textarea {
+    resize: none;
+    min-height: 100px;
+  }
+  
+  .qsupport-actions {
+    text-align: right;
+  }
+  
+  .qsupport-actions button {
+    background: var(--qsupport-primary);
+    color: #fff;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .qsupport-actions button:hover {
+    background: #003a8a;
+  }
+  
+  /* Responsive */
+  @media (max-width: 600px) {
+    .qsupport-links {
+      flex-direction: column;
+    }
+    .qsupport-searchbox {
+      flex-direction: column;
+    }
+  }
+  

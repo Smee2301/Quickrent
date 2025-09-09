@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/UploadDoc.css";
 
@@ -15,7 +15,71 @@ export default function UploadDoc() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  // OTP state
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpCode, setOtpCode] = useState("");
+  const [otpVerified, setOtpVerified] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    try {
+      const user = JSON.parse(localStorage.getItem("qr_user") || "{}");
+      if (user?.phone) setMobileNumber(user.phone);
+    } catch {}
+  }, []);
+
+  async function sendOTP() {
+    if (!mobileNumber) {
+      setMessage("❌ Please enter your registered mobile number");
+      return;
+    }
+    setIsLoading(true);
+    setMessage("");
+    try {
+      const token = localStorage.getItem("qr_token");
+      const user = JSON.parse(localStorage.getItem("qr_user") || "{}");
+      const res = await fetch("http://localhost:4000/api/auth/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ phone: mobileNumber, userId: user.id })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to send OTP");
+      setOtpSent(true);
+      setMessage(`✅ OTP sent to ${mobileNumber}`);
+    } catch (e) {
+      setMessage("❌ " + (e.message || "Failed to send OTP"));
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function verifyOTP() {
+    if (!otpCode) {
+      setMessage("❌ Please enter the OTP code");
+      return;
+    }
+    setIsLoading(true);
+    setMessage("");
+    try {
+      const token = localStorage.getItem("qr_token");
+      const user = JSON.parse(localStorage.getItem("qr_user") || "{}");
+      const res = await fetch("http://localhost:4000/api/auth/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ phone: mobileNumber, otp: otpCode, userId: user.id })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Invalid OTP");
+      setOtpVerified(true);
+      setMessage("✅ Mobile number verified. You can submit your documents now.");
+    } catch (e) {
+      setMessage("❌ " + (e.message || "Failed to verify OTP"));
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   const handleFileChange = (field) => (e) => {
     const file = e.target.files[0];
@@ -66,6 +130,10 @@ export default function UploadDoc() {
     setMessage("");
 
     try {
+      if (!otpVerified) {
+        setMessage("❌ Please verify your mobile number with OTP before submitting.");
+        return;
+      }
       const token = localStorage.getItem("qr_token");
       if (!token) {
         setMessage("❌ Please login to upload documents");
@@ -153,6 +221,56 @@ export default function UploadDoc() {
         <p className="upload-info">
           Please upload all required documents. Only PDF and image files (JPG, JPEG, PNG) are allowed with maximum size of 5MB.
         </p>
+        
+        {/* Mobile Verification */}
+        <div className="form-card" style={{ marginBottom: 16 }}>
+          <h3><i className="fas fa-mobile-alt"></i> Verify Owner Identity via Registered Mobile</h3>
+          <div className="form-group">
+            <label htmlFor="ownerPhone"><i className="fas fa-phone"></i> Registered Mobile Number *</label>
+            <input
+              type="tel"
+              id="ownerPhone"
+              value={mobileNumber}
+              onChange={(e) => setMobileNumber(e.target.value)}
+              placeholder="Enter your registered mobile (e.g., +91 9876543210)"
+              required
+              disabled={otpVerified}
+            />
+            <small>We will send an OTP to this number to verify your identity.</small>
+          </div>
+          {!otpSent && (
+            <button type="button" className="file-view-btn" onClick={sendOTP} disabled={isLoading || !mobileNumber}>
+              {isLoading ? <><i className="fas fa-spinner fa-spin"></i> Sending...</> : <><i className="fas fa-sms"></i> Send OTP</>}
+            </button>
+          )}
+          {otpSent && !otpVerified && (
+            <div className="form-group" style={{ marginTop: 12 }}>
+              <label htmlFor="otpCode"><i className="fas fa-key"></i> Enter OTP *</label>
+              <input
+                type="text"
+                id="otpCode"
+                value={otpCode}
+                onChange={(e) => setOtpCode(e.target.value)}
+                maxLength={6}
+                placeholder="6-digit OTP"
+                required
+              />
+              <div>
+                <button type="button" className="file-view-btn" onClick={verifyOTP} disabled={isLoading || !otpCode}>
+                  {isLoading ? <><i className="fas fa-spinner fa-spin"></i> Verifying...</> : <><i className="fas fa-check"></i> Verify OTP</>}
+                </button>
+                <button type="button" className="file-view-btn" onClick={sendOTP} disabled={isLoading} style={{ marginLeft: 8 }}>
+                  <i className="fas fa-redo"></i> Resend OTP
+                </button>
+              </div>
+            </div>
+          )}
+          {otpVerified && (
+            <div className="message success" style={{ marginTop: 12 }}>
+              ✅ Mobile number verified
+            </div>
+          )}
+        </div>
         
         <div className="form-card">
           <form onSubmit={handleSubmit}>

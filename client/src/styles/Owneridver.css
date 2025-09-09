@@ -1,0 +1,98 @@
+.iv-wrapper {
+    min-height: 100vh;
+    background: url("/ownerdash.jpg") no-repeat center center/cover;
+    background-size: cover;
+    padding-bottom: 20px;
+  }
+  
+  /* Navbar */
+  .ivnavbarr {
+    background-color: #fdfeff;
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #2c2788;
+    top: 0;
+    z-index: 1000;
+  }
+  .iv-logo {
+    height: 60px;
+  }
+  .ivnavbarr h1 {
+    margin: 0;
+    font-weight: 600;
+  }
+  
+  /* Container */
+  .ivcontainer {
+    max-width: 800px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .ivcontainer h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #004aad;
+    text-align: center;
+  }
+  
+  /* Form */
+  .iv-form-group {
+    margin-bottom: 20px;
+  }
+  .iv-form-group label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .iv-form-group input[type="text"],
+  .iv-form-group input[type="file"],
+  .iv-form-group input[type="date"],
+  .iv-form-group input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+  }
+  .iv-format-note {
+    font-size: 13px;
+    color: #666;
+    margin-top: 5px;
+  }
+  
+  /* Button */
+  .iv-submit-btn {
+    display: block;
+    width: 200%;
+    background-color: #004aad;
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  .iv-submit-btn:hover {
+    background-color: #003380;
+  }
+  
+  /* Responsive */
+  @media (max-width: 600px) {
+    .ivnavbarr h1 {
+      font-size: 18px;
+    }
+    .ivcontainer {
+      margin: 20px;
+      padding: 20px;
+    }
+  }
+  

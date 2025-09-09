@@ -1,0 +1,619 @@
+:root {
+  --primary: #004aad;
+  --accent: #e67e22;
+  --light: #f9f9f9;
+  --text: #222;
+  --card-bg: #ffffff;
+  --rounded: 16px;
+  --success: #27ae60;
+  --danger: #e74c3c;
+  --warning: #f39c12;
+}
+
+.rb-wrapper {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding-bottom: 20px;
+  background: url("/renterdashbord.webp") no-repeat center center fixed;
+  background-size: cover;
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* Navbar */
+.rb-navbar {
+  background-color: hwb(217 94% 0% / 0.952);
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #2c2788;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.rb-logo {
+  height: 55px;
+}
+
+.rb-navbar h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* Container */
+.rb-container {
+  max-width: 1400px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.rb-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: var(--primary);
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.rb-container h2 i {
+  margin-right: 10px;
+  color: var(--accent);
+}
+
+/* Search and Filters */
+.rb-filters {
+  background: var(--card-bg);
+  padding: 25px;
+  border-radius: var(--rounded);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.rb-search-section {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.rb-search-box {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.rb-search-box i {
+  position: absolute;
+  left: 15px;
+  color: #666;
+  font-size: 16px;
+}
+
+.rb-search-box input {
+  width: 100%;
+  padding: 12px 15px 12px 45px;
+  border: 2px solid #e0e0e0;
+  border-radius: 25px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.rb-search-box input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.rb-clear-btn {
+  background: var(--danger);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+
+.rb-clear-btn:hover {
+  background: #c82333;
+}
+
+.rb-filter-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  align-items: center;
+}
+
+.rb-filter-row select,
+.rb-filter-row input {
+  padding: 10px 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.rb-filter-row select:focus,
+.rb-filter-row input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* Results count */
+.rb-results-count {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 10px;
+}
+
+.rb-results-count p {
+  margin: 0;
+  font-weight: 500;
+  color: var(--primary);
+}
+
+.rb-location-info {
+  color: var(--success) !important;
+  font-size: 14px;
+}
+
+.rb-location-info i {
+  margin-right: 5px;
+}
+
+/* Vehicle List */
+.rb-vehicle-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.rb-vehicle-card {
+  background: var(--card-bg);
+  border-radius: var(--rounded);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.rb-vehicle-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.rb-image-container {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.rb-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.rb-vehicle-card:hover .rb-image-container img {
+  transform: scale(1.05);
+}
+
+.rb-vehicle-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.rb-status {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.rb-status.available {
+  background: var(--success);
+  color: white;
+}
+
+.rb-status.unavailable {
+  background: var(--danger);
+  color: white;
+}
+
+.rb-distance {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.rb-distance i {
+  margin-right: 5px;
+}
+
+.rb-content {
+  padding: 20px;
+}
+
+.rb-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.rb-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.rb-rating {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 14px;
+}
+
+.rb-rating span:first-child {
+  font-weight: 600;
+  color: var(--warning);
+}
+
+.rb-rating span:last-child {
+  color: #666;
+  font-size: 12px;
+}
+
+.rb-details {
+  margin-bottom: 15px;
+}
+
+.rb-details p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.rb-highlight {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.rb-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.rb-feature-tag {
+  background: var(--light);
+  color: var(--primary);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.rb-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.rb-btn-book,
+.rb-btn-save,
+.rb-btn-details {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: 1;
+  justify-content: center;
+}
+
+.rb-btn-book {
+  background: var(--primary);
+  color: white;
+}
+
+.rb-btn-book:hover:not(:disabled) {
+  background: #003d8a;
+  transform: translateY(-2px);
+}
+
+.rb-btn-book:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.rb-btn-save {
+  background: var(--light);
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
+.rb-btn-save:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.rb-btn-save.saved {
+  background: var(--danger);
+  color: white;
+  border-color: var(--danger);
+}
+
+.rb-btn-details {
+  background: var(--accent);
+  color: white;
+}
+
+.rb-btn-details:hover {
+  background: #d35400;
+  transform: translateY(-2px);
+}
+
+/* No Results */
+.rb-no-results {
+  text-align: center;
+  padding: 60px 20px;
+  background: var(--card-bg);
+  border-radius: var(--rounded);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.rb-no-results i {
+  font-size: 48px;
+  color: #ccc;
+  margin-bottom: 20px;
+}
+
+.rb-no-results h3 {
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.rb-no-results p {
+  color: #666;
+}
+
+/* Booking Modal */
+.rb-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.rb-modal-content {
+  background: var(--card-bg);
+  border-radius: var(--rounded);
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.rb-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.rb-modal-header h3 {
+  margin: 0;
+  color: var(--primary);
+}
+
+.rb-modal-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #666;
+  padding: 5px;
+}
+
+.rb-modal-close:hover {
+  color: var(--danger);
+}
+
+.rb-modal-body {
+  padding: 20px;
+}
+
+.rb-booking-form {
+  display: grid;
+  gap: 15px;
+}
+
+.rb-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.rb-form-group label {
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 5px;
+}
+
+.rb-form-group input {
+  padding: 10px 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.rb-form-group input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.rb-calculate-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.rb-calculate-btn:hover {
+  background: #d35400;
+}
+
+.rb-cost-summary {
+  background: var(--light);
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary);
+}
+
+.rb-cost-summary h4 {
+  margin: 0 0 10px 0;
+  color: var(--primary);
+}
+
+.rb-cost-summary p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.rb-total-cost {
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--success) !important;
+}
+
+.rb-modal-footer {
+  display: flex;
+  gap: 10px;
+  padding: 20px;
+  border-top: 1px solid #e0e0e0;
+  justify-content: flex-end;
+}
+
+.rb-btn-cancel,
+.rb-btn-confirm {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.rb-btn-cancel {
+  background: #ccc;
+  color: #666;
+}
+
+.rb-btn-cancel:hover {
+  background: #bbb;
+}
+
+.rb-btn-confirm {
+  background: var(--success);
+  color: white;
+}
+
+.rb-btn-confirm:hover:not(:disabled) {
+  background: #229954;
+  transform: translateY(-2px);
+}
+
+.rb-btn-confirm:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .rb-container {
+    padding: 0 10px;
+  }
+  
+  .rb-search-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .rb-filter-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .rb-vehicle-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .rb-actions {
+    flex-direction: column;
+  }
+  
+  .rb-modal-content {
+    width: 95%;
+    margin: 10px;
+  }
+  
+  .rb-modal-footer {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .rb-navbar {
+    padding: 10px 15px;
+  }
+  
+  .rb-navbar h1 {
+    font-size: 18px;
+  }
+  
+  .rb-container h2 {
+    font-size: 24px;
+  }
+  
+  .rb-vehicle-card {
+    margin-bottom: 20px;
+  }
+}

@@ -10,23 +10,20 @@
   min-height: 100vh;
   background: url("/ownerdash.jpg")  center center fixed;
   background-size: cover;
-  padding: 20px;
-}
-
-.UPD {
-  min-height: 100vh;
+  padding-bottom: 20px;
 }
 
 /* Navbar */
 .navbarr {
   background-color: #fdfeff;
-  padding: 15px 30px;
+  padding-bottom:  3px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid #eee;
+  gap: 800px; 
   color: #2c2788;
-  top: 0;
-  z-index: 1000;
 }
 
 .navbarr img.logoo {

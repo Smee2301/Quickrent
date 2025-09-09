@@ -156,9 +156,14 @@ export default function VehicleSecurity() {
                     onClick={() => handleVehicleSelect(vehicle)}
                   >
                     <img 
-                      src={vehicle.photo ? `/uploads/${vehicle.photo}` : '/lv1.avif'} 
+                      src={vehicle.photo ? `http://localhost:4000/uploads/${vehicle.photo}` : '/vlist.jpeg'} 
                       alt={vehicle.brand}
                       className="vehicle-image"
+                      onError={(e) => {
+                        if (!e.target.src.includes('/vlist.jpeg')) {
+                          e.target.src = '/vlist.jpeg';
+                        }
+                      }}
                     />
                     <div className="vehicle-info">
                       <h4>{vehicle.brand} {vehicle.model}</h4>
@@ -176,13 +181,13 @@ export default function VehicleSecurity() {
             <div className="security-points">
               <div className="security-header">
                 <h3>Security Points for {selectedVehicle.brand} {selectedVehicle.model}</h3>
-                <button className="btn-add-point" onClick={() => addSecurityPoint({
+                {/* <button className="btn-add-point" onClick={() => addSecurityPoint({
                   type: "general",
                   description: "New security point",
                   priority: "medium"
                 })}>
                   <i className="fas fa-plus"></i> Add Point
-                </button>
+                </button> */}
               </div>
 
               <div className="security-grid">

@@ -222,6 +222,7 @@ router.post('/login', async (req, res) => {
         id: user._id, 
         name: user.name, 
         email: user.email, 
+        phone: user.phone,
         role: user.role 
       } 
     });
@@ -374,6 +375,130 @@ router.post('/reset-password', async (req, res) => {
     res.json({ message: 'Password reset successful! You can now sign in with your new password.' });
   } catch (err) {
     console.error('Reset password error:', err);
+    res.status(500).json({ message: 'Server error. Please try again later.' });
+  }
+});
+
+// Send OTP for two-factor authentication
+router.post('/send-otp', async (req, res) => {
+  try {
+    const { phone, userId } = req.body;
+    
+    if (!phone || !userId) {
+      return res.status(400).json({ 
+        message: 'Phone number and user ID are required'
+      });
+    }
+
+    if (!validatePhone(phone)) {
+      return res.status(400).json({ 
+        message: 'Please enter a valid phone number'
+      });
+    }
+
+    // Verify the user exists
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ 
+        message: 'User not found'
+      });
+    }
+
+    // Check if phone number is already in use by another user
+    const existingUser = await User.findOne({ phone: phone, _id: { $ne: userId } });
+    if (existingUser) {
+      return res.status(400).json({ 
+        message: 'This phone number is already registered with another account'
+      });
+    }
+
+    // Generate 6-digit OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    
+    // Store OTP with expiration (5 minutes)
+    otpStore.set(phone, {
+      otp,
+      userId,
+      expiresAt: Date.now() + 5 * 60 * 1000, // 5 minutes
+      createdAt: Date.now()
+    });
+
+    // In production, send actual SMS here
+    console.log(`OTP for ${phone} (User: ${user.name}): ${otp}`);
+    
+    res.json({ 
+      message: 'OTP sent successfully',
+      // In development, include OTP for testing
+      ...(process.env.NODE_ENV !== 'production' && { otp })
+    });
+  } catch (error) {
+    console.error('Send OTP error:', error);
+    res.status(500).json({ message: 'Server error. Please try again later.' });
+  }
+});
+
+// Verify OTP for two-factor authentication
+router.post('/verify-otp', async (req, res) => {
+  try {
+    const { phone, otp, userId } = req.body;
+    
+    if (!phone || !otp || !userId) {
+      return res.status(400).json({ 
+        message: 'Phone number, OTP, and user ID are required'
+      });
+    }
+
+    // First, verify the user exists and get their current phone number
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ 
+        message: 'User not found'
+      });
+    }
+
+    const storedOtpData = otpStore.get(phone);
+    if (!storedOtpData) {
+      return res.status(400).json({ 
+        message: 'OTP not found or expired. Please request a new OTP.'
+      });
+    }
+    
+    if (Date.now() > storedOtpData.expiresAt) {
+      otpStore.delete(phone);
+      return res.status(400).json({ 
+        message: 'OTP has expired. Please request a new OTP.'
+      });
+    }
+    
+    if (storedOtpData.otp !== otp) {
+      return res.status(400).json({ 
+        message: 'Invalid OTP. Please check and try again.'
+      });
+    }
+
+    // Check if the phone number matches the user's existing phone or if it's a new number
+    const phoneMatches = user.phone === phone;
+    
+    if (!phoneMatches && user.phone) {
+      // If user already has a different phone number, allow updating it
+      console.log(`User ${userId} is updating phone from ${user.phone} to ${phone}`);
+    }
+    
+    // Update user's phone number and enable 2FA
+    await User.findByIdAndUpdate(userId, { 
+      phone: phone,
+      twoFactorEnabled: true 
+    });
+    
+    // Remove OTP from store
+    otpStore.delete(phone);
+    
+    res.json({ 
+      message: 'OTP verified successfully! Two-factor authentication is now enabled.',
+      verified: true
+    });
+  } catch (error) {
+    console.error('Verify OTP error:', error);
     res.status(500).json({ message: 'Server error. Please try again later.' });
   }
 });
