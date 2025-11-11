@@ -370,11 +370,12 @@ export default function AddVehicle() {
           </div>
 
           <div className="form-group full">
-            <label>Pollution Certificate</label>
+            <label>Pollution Certificate *</label>
             <input
               type="file"
               accept=".pdf,.jpg,.jpeg,.png"
               onChange={handleFileChange("pollution")}
+              required
             />
             <small>Only PDF, JPG, JPEG, PNG files allowed (max 5MB)</small>
           </div>

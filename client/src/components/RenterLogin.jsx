@@ -171,6 +171,13 @@ export default function RenterLogin() {
         </div>
         
         <div className="renter-login-msg">{msg}</div>
+        <button
+          type="button"
+          className="home-renter-btn"
+          onClick={() => navigate("/")}
+        >
+          ⇦ Back to Home
+        </button>
       </div>
     </div>
   );

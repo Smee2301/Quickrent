@@ -83,10 +83,10 @@ router.post('/register', async (req, res) => {
     const { name, email, password, phone, role } = req.body;
     
     // Comprehensive validation
-    if (!name || !email || !password || !role) {
+    if (!name || !email || !password || !phone || !role) {
       return res.status(400).json({ 
         message: 'All fields are required',
-        field: !name ? 'name' : !email ? 'email' : !password ? 'password' : 'role'
+        field: !name ? 'name' : !email ? 'email' : !password ? 'password' : !phone ? 'phone' : 'role'
       });
     }
 
@@ -111,7 +111,7 @@ router.post('/register', async (req, res) => {
       });
     }
 
-    if (phone && !validatePhone(phone)) {
+    if (!validatePhone(phone)) {
       return res.status(400).json({ 
         message: 'Please enter a valid phone number',
         field: 'phone'
@@ -134,15 +134,13 @@ router.post('/register', async (req, res) => {
       });
     }
 
-    // Check if user already exists with phone (if phone is provided)
-    if (phone && phone.trim()) {
-      const existingUserByPhone = await User.findOne({ phone: phone.trim() });
-      if (existingUserByPhone) {
-        return res.status(409).json({ 
-          message: 'An account with this phone number already exists. Please sign in instead.',
-          field: 'phone'
-        });
-      }
+    // Check if user already exists with phone
+    const existingUserByPhone = await User.findOne({ phone: phone.trim() });
+    if (existingUserByPhone) {
+      return res.status(409).json({ 
+        message: 'An account with this phone number already exists. Please sign in instead.',
+        field: 'phone'
+      });
     }
 
     // Hash password and create user
@@ -150,7 +148,7 @@ router.post('/register', async (req, res) => {
     const user = await User.create({ 
       name: name.trim(), 
       email: email.toLowerCase().trim(), 
-      phone: phone ? phone.trim() : '', 
+      phone: phone.trim(), 
       role, 
       passwordHash 
     });

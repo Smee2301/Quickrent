@@ -52,32 +52,35 @@ export default function Header() {
           <img className="logo" src="/logo1.png" alt="QuickRent Logo" />
         </div>
 
- {/* Right side elements */}
- <div className="nav-right">
-          <div className="nav-role-selector">
-            <label htmlFor="user-role" className="role-label">Select Your Role:</label>
-            <select id="user-role" onChange={redirectToRole}>
-              <option value="">Select an Option</option>
-              <option value="owner-login.html">Owner</option>
-              <option value="renter-login.html">Renter</option>
-            </select>
-          </div>
+        {/* Right side elements */}
+        <div className="nav-right">
+        <div className="nav-role-selector">
+              <label className="role-label">Select Your Role:</label>
+              <button className="role-btn" onClick={() => navigate("/owner/login")}>
+                Owner
+              </button>
 
-        {/* Center navigation */}
-        <nav className="nav-links">
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-          <Link to="/how-it-works">How it works</Link>
-          <Link to="/contact-us">Contact us</Link>
-          <Link to="/terms">Terms</Link>
-        </nav>
+              <button className="role-btn" onClick={() => navigate("/renter/login")}>
+                Renter
+              </button>
+          
+              </div>
 
 
-          <select id="language-switch" title="Choose Language">
+          {/* Center navigation */}
+          <nav className="nav-links">
+            <Link to="/">Home</Link>
+            <Link to="/about">About</Link>
+            <Link to="/how-it-works">How it works</Link>
+            <Link to="/contact-us">Contact us</Link>
+            <Link to="/terms">Terms</Link>
+          </nav>
+
+          {/* <select id="language-switch" title="Choose Language">
             <option value="en">🌐 EN</option>
             <option value="hi">🇮🇳 HI</option>
             <option value="gu">🇮🇳 GU</option>
-          </select>
+          </select> */}
         </div>
       
         {/* <div className="profile-dropdown">

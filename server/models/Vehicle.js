@@ -25,7 +25,7 @@ const vehicleSchema = new Schema(
     documents: {
       rc: { type: String },
       insurance: { type: String },
-      pollution: { type: String }
+      pollution: { type: String, required: true }
     },
     notes: String,
     isAvailable: { type: Boolean, default: true },

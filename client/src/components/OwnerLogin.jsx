@@ -167,7 +167,18 @@ export default function OwnerLogin() {
         </div>
 
         <div className="ol-msg">{msg}</div>
+        <button
+          type="button"
+          className="home-btn"
+          onClick={() => navigate("/")}
+        >
+          ⇦ Back to Home
+        </button>
       </div>
+
+      
     </div>
+    
+  
   );
 }

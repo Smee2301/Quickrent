@@ -70,6 +70,11 @@ router.post('/', authRequired, upload.fields([
       }
     }
     
+    // Validate required documents
+    if (!req.files || !req.files['documents.pollution'] || !req.files['documents.pollution'][0]) {
+      return res.status(400).json({ message: 'Pollution certificate is required' });
+    }
+    
     // Parse features if it's a string
     if (payload.features && typeof payload.features === 'string') {
       try {

@@ -238,3 +238,20 @@
 .ol-msg:empty {
   display: none;
 }
+
+.home-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 14px;
+  background: #133152;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+}
+.home-btn:hover {
+  background: #133152;
+  box-shadow: 0 4px 12px rgba(208, 219, 230, 0.3);
+}

@@ -31,8 +31,10 @@ export default function OwnerSignup() {
       newErrors.email = "Please enter a valid email address";
     }
 
-    // Phone validation (optional but validate if provided)
-    if (form.phone.trim() && !/^[\+]?[1-9][\d]{0,15}$/.test(form.phone)) {
+    // Phone validation (required)
+    if (!form.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (!/^[\+]?[1-9][\d]{0,15}$/.test(form.phone)) {
       newErrors.phone = "Please enter a valid phone number";
     }
 
@@ -186,13 +188,14 @@ export default function OwnerSignup() {
           </div>
 <br></br>
           <div className="owner-form-group">
-            <label>Phone Number (Optional)</label>
+            <label>Phone Number *</label>
             <input 
               type="tel" 
               value={form.phone} 
               onChange={update("phone")} 
               placeholder="Enter your phone number"
               className={getFieldError("phone") ? "error" : ""}
+              required
             />
             {getFieldError("phone") && <span className="error-text">{getFieldError("phone")}</span>}
           </div>

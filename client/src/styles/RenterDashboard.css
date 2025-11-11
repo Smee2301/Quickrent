@@ -9,7 +9,8 @@
   display: flex;
   min-height: 100vh;
   height: 100%;
-  background-image: url("/renterdashbord.webp");
+  /* background-image: url("/renterdashbord.webp"); */
+  background-color: #D1D3D4;
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
