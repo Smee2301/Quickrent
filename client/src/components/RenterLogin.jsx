@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import "../styles/RenterLogin.css";
 
 export default function RenterLogin() {
@@ -7,20 +7,12 @@ export default function RenterLogin() {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
   const [msg, setMsg] = useState('');
-  const [lastEmail, setLastEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const suggestedEmail = location.state?.suggestedEmail;
   
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem('qr_last_renter_email');
-      if (stored) {
-        setLastEmail(stored);
-        if (!email) setEmail(stored);
-      }
-    } catch {}
-  }, []);
 
   
 
@@ -77,7 +69,6 @@ export default function RenterLogin() {
       if (data.token) {
         localStorage.setItem('qr_token', data.token);
         localStorage.setItem('qr_user', JSON.stringify(data.user));
-        try { localStorage.setItem('qr_last_renter_email', email); } catch {}
       }
 
       setMsg('Login successful! Redirecting...\nTip: Save your email/password securely and lock your device with a PIN.');
@@ -105,11 +96,17 @@ export default function RenterLogin() {
         <h2>Renter Sign In</h2>
         <p>Access your rental dashboard and manage bookings</p>
         
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} autoComplete="off">
           <div className="renter-login-input">
             <label>Email Address *</label>
             <input 
-              type="email" 
+              type="email"
+              name="renter-email-input"
+              autoComplete="off"
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
+              inputMode="email"
               value={email} 
               onChange={e => {
                 setEmail(e.target.value);
@@ -120,13 +117,16 @@ export default function RenterLogin() {
               required 
             />
             {getFieldError("email") && <span className="error-text">{getFieldError("email")}</span>}
+            {suggestedEmail && <div className="suggest">Suggested email: {suggestedEmail}</div>}
           </div>
      <br></br>     
           <div className="renter-login-inputt">
             <label>Password *</label>
             <div className="password-input">
               <input 
-                type={showPassword ? "text" : "password"} 
+                type={showPassword ? "text" : "password"}
+                name="renter-password-input"
+                autoComplete="new-password"
                 value={password} 
                 onChange={e => {
                   setPassword(e.target.value);

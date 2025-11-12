@@ -218,6 +218,26 @@ export default function UploadDoc() {
         <h2>
           <i className="fas fa-upload"></i> Required Documents
         </h2>
+        <button
+          type="button"
+          onClick={() => navigate('/owner/dashboard')}
+          className="back-dashboard-btn"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            margin: '8px 0 16px',
+            background: '#0ea5e9',
+            color: '#fff',
+            border: 'none',
+            padding: '10px 14px',
+            borderRadius: '8px',
+            cursor: 'pointer'
+          }}
+          aria-label="Back to Owner Dashboard"
+        >
+          <i className="fas fa-arrow-left"></i> Back to Dashboard
+        </button>
         <p className="upload-info">
           Please upload all required documents. Only PDF and image files (JPG, JPEG, PNG) are allowed with maximum size of 5MB.
         </p>

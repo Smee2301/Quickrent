@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 
 const vehicleSchema = new Schema(
   {
-    ownerId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    ownerId: { type: Schema.Types.ObjectId, ref: 'Owner', required: true },
     brand: { type: String, required: true },
     model: { type: String, required: true },
     type: { type: String, enum: ['Car', 'Bike', 'Scooter', 'Van', 'SUV', 'Truck'], required: true },

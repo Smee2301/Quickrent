@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 
 const maintenanceSchema = new Schema(
   {
-    ownerId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    ownerId: { type: Schema.Types.ObjectId, ref: 'Owner', required: true },
     vehicleId: { type: Schema.Types.ObjectId, ref: 'Vehicle', required: true },
     serviceType: { type: String, required: true },
     date: { type: Date, required: true },

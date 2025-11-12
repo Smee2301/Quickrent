@@ -1,8 +1,10 @@
 import React, { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/Paymenthistory.css";
 
 export default function Paymenthistory() {
   const [filter, setFilter] = useState("All");
+  const navigate = useNavigate();
 
   // In production, replace with fetched transactions for the logged-in owner
   const transactions = useMemo(() => {
@@ -71,6 +73,26 @@ export default function Paymenthistory() {
 
       <div className="phcontainer">
         <h2>Owner Payment History</h2>
+        <button
+          type="button"
+          onClick={() => navigate('/owner/dashboard')}
+          className="back-dashboard-btn"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            margin: '8px 0 16px',
+            background: '#0ea5e9',
+            color: '#fff',
+            border: 'none',
+            padding: '10px 14px',
+            borderRadius: '8px',
+            cursor: 'pointer'
+          }}
+          aria-label="Back to Owner Dashboard"
+        >
+          <i className="fas fa-arrow-left"></i> Back to Dashboard
+        </button>
 
         {/* Summary Cards */}
         <div className="phsummary-cards">

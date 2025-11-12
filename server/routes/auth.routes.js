@@ -1,7 +1,8 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const Owner = require('../models/Owner');
+const Renter = require('../models/Renter');
 
 // In-memory storage for OTPs (in production, use Redis or database)
 const otpStore = new Map();
@@ -43,7 +44,9 @@ router.post('/check-existing', async (req, res) => {
           exists: false
         });
       }
-      existingUser = await User.findOne({ email: email.toLowerCase().trim() });
+      // Check in both Owner and Renter collections
+      existingUser = await Owner.findOne({ email: email.toLowerCase().trim() }) || 
+                     await Renter.findOne({ email: email.toLowerCase().trim() });
       field = 'email';
     } else if (phone) {
       if (!validatePhone(phone)) {
@@ -52,7 +55,9 @@ router.post('/check-existing', async (req, res) => {
           exists: false
         });
       }
-      existingUser = await User.findOne({ phone: phone.trim() });
+      // Check in both Owner and Renter collections
+      existingUser = await Owner.findOne({ phone: phone.trim() }) || 
+                     await Renter.findOne({ phone: phone.trim() });
       field = 'phone';
     }
     
@@ -125,33 +130,44 @@ router.post('/register', async (req, res) => {
       });
     }
 
-    // Check if user already exists with email
-    const existingUserByEmail = await User.findOne({ email: email.toLowerCase().trim() });
-    if (existingUserByEmail) {
+    // Check if user already exists with email in either collection
+    const existingOwnerByEmail = await Owner.findOne({ email: email.toLowerCase().trim() });
+    const existingRenterByEmail = await Renter.findOne({ email: email.toLowerCase().trim() });
+    if (existingOwnerByEmail || existingRenterByEmail) {
       return res.status(409).json({ 
         message: 'An account with this email already exists. Please sign in instead.',
         field: 'email'
       });
     }
 
-    // Check if user already exists with phone
-    const existingUserByPhone = await User.findOne({ phone: phone.trim() });
-    if (existingUserByPhone) {
+    // Check if user already exists with phone in either collection
+    const existingOwnerByPhone = await Owner.findOne({ phone: phone.trim() });
+    const existingRenterByPhone = await Renter.findOne({ phone: phone.trim() });
+    if (existingOwnerByPhone || existingRenterByPhone) {
       return res.status(409).json({ 
         message: 'An account with this phone number already exists. Please sign in instead.',
         field: 'phone'
       });
     }
 
-    // Hash password and create user
+    // Hash password and create user in the appropriate collection
     const passwordHash = await bcrypt.hash(password, 12);
-    const user = await User.create({ 
-      name: name.trim(), 
-      email: email.toLowerCase().trim(), 
-      phone: phone.trim(), 
-      role, 
-      passwordHash 
-    });
+    let user;
+    if (role === 'owner') {
+      user = await Owner.create({ 
+        name: name.trim(), 
+        email: email.toLowerCase().trim(), 
+        phone: phone.trim(), 
+        passwordHash 
+      });
+    } else {
+      user = await Renter.create({ 
+        name: name.trim(), 
+        email: email.toLowerCase().trim(), 
+        phone: phone.trim(), 
+        passwordHash 
+      });
+    }
 
     res.status(201).json({ 
       message: 'Account created successfully! You can now sign in.',
@@ -159,7 +175,7 @@ router.post('/register', async (req, res) => {
         id: user._id, 
         name: user.name, 
         email: user.email, 
-        role: user.role 
+        role: role 
       } 
     });
   } catch (err) {
@@ -188,8 +204,13 @@ router.post('/login', async (req, res) => {
       });
     }
 
-    // Find user
-    const user = await User.findOne({ email: email.toLowerCase().trim() });
+    // Find user in both Owner and Renter collections
+    let user = await Owner.findOne({ email: email.toLowerCase().trim() });
+    let userRole = 'owner';
+    if (!user) {
+      user = await Renter.findOne({ email: email.toLowerCase().trim() });
+      userRole = 'renter';
+    }
     if (!user) {
       return res.status(401).json({ 
         message: 'No account found with this email address. Please check your email or sign up.',
@@ -208,7 +229,7 @@ router.post('/login', async (req, res) => {
 
     // Generate token
     const token = jwt.sign(
-      { sub: user._id, role: user.role }, 
+      { sub: user._id, role: userRole }, 
       process.env.JWT_SECRET || 'dev_secret', 
       { expiresIn: '7d' }
     );
@@ -221,7 +242,7 @@ router.post('/login', async (req, res) => {
         name: user.name, 
         email: user.email, 
         phone: user.phone,
-        role: user.role 
+        role: userRole 
       } 
     });
   } catch (err) {
@@ -253,7 +274,9 @@ router.post('/send-otp', async (req, res) => {
           field: 'email'
         });
       }
-      user = await User.findOne({ email: email.toLowerCase().trim() });
+      // Check in both collections
+      user = await Owner.findOne({ email: email.toLowerCase().trim() }) || 
+             await Renter.findOne({ email: email.toLowerCase().trim() });
       contactType = 'email';
       contactValue = email.toLowerCase().trim();
     } else if (phone) {
@@ -263,7 +286,9 @@ router.post('/send-otp', async (req, res) => {
           field: 'phone'
         });
       }
-      user = await User.findOne({ phone: phone.trim() });
+      // Check in both collections
+      user = await Owner.findOne({ phone: phone.trim() }) || 
+             await Renter.findOne({ phone: phone.trim() });
       contactType = 'phone';
       contactValue = phone.trim();
     }
@@ -363,9 +388,15 @@ router.post('/reset-password', async (req, res) => {
       });
     }
     
-    // Update password
+    // Update password - find user in either collection
     const passwordHash = await bcrypt.hash(newPass, 12);
-    await User.findByIdAndUpdate(storedOtpData.userId, { passwordHash });
+    let updated = await Owner.findByIdAndUpdate(storedOtpData.userId, { passwordHash });
+    if (!updated) {
+      updated = await Renter.findByIdAndUpdate(storedOtpData.userId, { passwordHash });
+    }
+    if (!updated) {
+      return res.status(404).json({ message: 'User not found' });
+    }
     
     // Remove OTP from store
     otpStore.delete(contactValue);
@@ -394,8 +425,13 @@ router.post('/send-otp', async (req, res) => {
       });
     }
 
-    // Verify the user exists
-    const user = await User.findById(userId);
+    // Verify the user exists in either collection
+    let user = await Owner.findById(userId);
+    let isOwner = true;
+    if (!user) {
+      user = await Renter.findById(userId);
+      isOwner = false;
+    }
     if (!user) {
       return res.status(404).json({ 
         message: 'User not found'
@@ -403,7 +439,14 @@ router.post('/send-otp', async (req, res) => {
     }
 
     // Check if phone number is already in use by another user
-    const existingUser = await User.findOne({ phone: phone, _id: { $ne: userId } });
+    let existingUser;
+    if (isOwner) {
+      existingUser = await Owner.findOne({ phone: phone, _id: { $ne: userId } }) ||
+                     await Renter.findOne({ phone: phone });
+    } else {
+      existingUser = await Renter.findOne({ phone: phone, _id: { $ne: userId } }) ||
+                     await Owner.findOne({ phone: phone });
+    }
     if (existingUser) {
       return res.status(400).json({ 
         message: 'This phone number is already registered with another account'
@@ -447,7 +490,12 @@ router.post('/verify-otp', async (req, res) => {
     }
 
     // First, verify the user exists and get their current phone number
-    const user = await User.findById(userId);
+    let user = await Owner.findById(userId);
+    let isOwner = true;
+    if (!user) {
+      user = await Renter.findById(userId);
+      isOwner = false;
+    }
     if (!user) {
       return res.status(404).json({ 
         message: 'User not found'
@@ -483,10 +531,17 @@ router.post('/verify-otp', async (req, res) => {
     }
     
     // Update user's phone number and enable 2FA
-    await User.findByIdAndUpdate(userId, { 
-      phone: phone,
-      twoFactorEnabled: true 
-    });
+    if (isOwner) {
+      await Owner.findByIdAndUpdate(userId, { 
+        phone: phone,
+        twoFactorEnabled: true 
+      });
+    } else {
+      await Renter.findByIdAndUpdate(userId, { 
+        phone: phone,
+        twoFactorEnabled: true 
+      });
+    }
     
     // Remove OTP from store
     otpStore.delete(phone);
@@ -524,7 +579,9 @@ router.post('/check-account', async (req, res) => {
           field: 'email'
         });
       }
-      user = await User.findOne({ email: email.toLowerCase().trim() });
+      // Check in both collections
+      user = await Owner.findOne({ email: email.toLowerCase().trim() }) || 
+             await Renter.findOne({ email: email.toLowerCase().trim() });
       contactType = 'email';
       contactValue = email.toLowerCase().trim();
     } else {
@@ -534,7 +591,9 @@ router.post('/check-account', async (req, res) => {
           field: 'phone'
         });
       }
-      user = await User.findOne({ phone: phone.trim() });
+      // Check in both collections
+      user = await Owner.findOne({ phone: phone.trim() }) || 
+             await Renter.findOne({ phone: phone.trim() });
       contactType = 'phone';
       contactValue = phone.trim();
     }
@@ -546,12 +605,17 @@ router.post('/check-account', async (req, res) => {
       });
     }
 
+    // Determine role based on which collection the user was found in
+    // Since we already found the user, check which collection it came from
+    const ownerCheck = await Owner.findById(user._id);
+    const userRole = ownerCheck ? 'owner' : 'renter';
+    
     // Return account info (without sensitive data)
     res.json({ 
       message: 'Account found!',
       accountInfo: {
         name: user.name,
-        role: user.role,
+        role: userRole,
         contactType,
         contactValue: contactType === 'email' ? 
           contactValue.replace(/(.{2})(.*)(?=@)/, (_, start, rest) => start + '*'.repeat(rest.length)) :

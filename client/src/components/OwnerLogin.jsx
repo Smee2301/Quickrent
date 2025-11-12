@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "../styles/OwnerLogin.css";
 
 export default function OwnerLogin() {
@@ -7,20 +7,12 @@ export default function OwnerLogin() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [msg, setMsg] = useState("");
-  const [lastEmail, setLastEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const suggestedEmail = location.state?.suggestedEmail;
 
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem("qr_last_owner_email");
-      if (stored) {
-        setLastEmail(stored);
-        if (!email) setEmail(stored);
-      }
-    } catch {}
-  }, []);
 
   
 
@@ -75,7 +67,6 @@ export default function OwnerLogin() {
 
       localStorage.setItem("qr_token", data.token);
       localStorage.setItem("qr_user", JSON.stringify(data.user));
-      try { localStorage.setItem("qr_last_owner_email", email); } catch {}
 
       setMsg("Login successful! Redirecting...\nTip: Save your email/password securely and lock your device with a PIN.");
       setTimeout(() => {
@@ -101,11 +92,17 @@ export default function OwnerLogin() {
         <h2>Owner Sign In</h2>
         <p>Access your vehicle dashboard and manage listings</p>
 
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} autoComplete="off">
           <div className="ol-form-group">
             <label>Email Address *</label>
             <input 
-              type="email" 
+              type="email"
+              name="owner-email-input"
+              autoComplete="off"
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
+              inputMode="email"
               value={email} 
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -116,13 +113,16 @@ export default function OwnerLogin() {
               required 
             />
             {getFieldError("email") && <span className="ol-error-text">{getFieldError("email")}</span>}
+            {suggestedEmail && <div className="ol-suggest">Suggested email: {suggestedEmail}</div>}
           </div>
 <br></br>
           <div className="ol-form-group">
             <label>Password *</label>
             <div className="ol-password-input">
               <input 
-                type={showPassword ? "text" : "password"} 
+                type={showPassword ? "text" : "password"}
+                name="owner-password-input"
+                autoComplete="new-password"
                 value={password} 
                 onChange={(e) => {
                   setPassword(e.target.value);

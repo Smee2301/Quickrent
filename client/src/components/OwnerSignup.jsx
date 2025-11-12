@@ -11,7 +11,7 @@ export default function OwnerSignup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showCredentials, setShowCredentials] = useState(false);
-  const [savedCredentials, setSavedCredentials] = useState({ email: '', password: '' });
+  const [savedCredentials, setSavedCredentials] = useState({ email: '' });
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -123,12 +123,11 @@ export default function OwnerSignup() {
         return;
       }
 
-      setMsg("Account created successfully! You can now sign in.\nTip: Save your email/password securely and lock your device with a PIN.");
-      try { localStorage.setItem('qr_last_owner_email', form.email); } catch {}
-      setSavedCredentials({ email: form.email, password: form.password });
+      setMsg("Account created successfully! You can now sign in.\nTip: Save your email securely.");
+      setSavedCredentials({ email: form.email });
       setShowCredentials(true);
       setTimeout(() => {
-        navigate("/owner/login");
+        navigate("/owner/login", { state: { suggestedEmail: form.email } });
       }, 2000);
     } catch (err) {
       setMsg("Network error. Please try again.");
@@ -160,11 +159,13 @@ export default function OwnerSignup() {
         <h2>Create Owner Account</h2>
         <p className="signup-subtitle">Join QuickRent as a vehicle owner</p>
         
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} autoComplete="off">
           <div className="owner-form-group">
             <label>Full Name *</label>
             <input 
               type="text"
+              name="name"
+              autoComplete="name"
               value={form.name} 
               onChange={update("name")} 
               placeholder="Enter your full name"
@@ -177,7 +178,13 @@ export default function OwnerSignup() {
           <div className="owner-form-group">
             <label>Email Address *</label>
             <input 
-              type="email" 
+              type="email"
+              name="email"
+              autoComplete="email"
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
+              inputMode="email"
               value={form.email} 
               onChange={update("email")} 
               placeholder="Enter your email address"
@@ -190,7 +197,10 @@ export default function OwnerSignup() {
           <div className="owner-form-group">
             <label>Phone Number *</label>
             <input 
-              type="tel" 
+              type="tel"
+              name="tel"
+              autoComplete="tel"
+              inputMode="tel" 
               value={form.phone} 
               onChange={update("phone")} 
               placeholder="Enter your phone number"
@@ -204,7 +214,9 @@ export default function OwnerSignup() {
             <label>Password *</label>
             <div className="password-input">
               <input 
-                type={showPassword ? "text" : "password"} 
+                type={showPassword ? "text" : "password"}
+                name="new-password"
+                autoComplete="new-password" 
                 value={form.password} 
                 onChange={update("password")} 
                 placeholder="Create a password (min 6 characters)"
@@ -226,7 +238,9 @@ export default function OwnerSignup() {
             <label>Confirm Password *</label>
             <div className="password-input">
               <input 
-                type={showConfirmPassword ? "text" : "password"} 
+                type={showConfirmPassword ? "text" : "password"}
+                name="new-password"
+                autoComplete="new-password" 
                 value={form.confirm} 
                 onChange={update("confirm")} 
                 placeholder="Confirm your password"
@@ -275,9 +289,6 @@ export default function OwnerSignup() {
               <h4>Your Login Details</h4>
               <div className="credential-item">
                 <strong>Email:</strong> {savedCredentials.email}
-              </div>
-              <div className="credential-item">
-                <strong>Password:</strong> {savedCredentials.password}
               </div>
               <button 
                 className="close-popup-btn"
