@@ -154,7 +154,7 @@ export default function Bookingreq() {
           <div className="header-a">
             <h2>Booking Requests</h2>
             <button 
-              className="btn-back"
+              className="BKI-back"
               onClick={() => navigate("/owner/dashboard")}
             >
               <i className="fas fa-arrow-left"></i> Back to Dashboard

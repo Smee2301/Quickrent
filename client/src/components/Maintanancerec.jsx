@@ -246,7 +246,7 @@ export default function Maintanancerec() {
         <div className="header-actionss">
           <h2>Vehicle Maintenance Log</h2>
           <button 
-            className="btn-back"
+            className="mtn-back"
             onClick={() => navigate("/owner/dashboard")}
           >
             <i className="fas fa-arrow-left"></i> Back to Dashboard

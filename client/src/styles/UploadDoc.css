@@ -224,6 +224,21 @@ input[type="file"]:focus {
   animation: popupSlideIn 0.3s ease;
 }
 
+.back-dashboard-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 530px;
+  margin-bottom: 20px;
+  background: #2c3e50;
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
 @keyframes popupSlideIn {
   from {
     opacity: 0;

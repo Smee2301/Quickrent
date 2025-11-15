@@ -615,6 +615,21 @@
   transform: none;
 }
 
+.back-SS-btn {
+  background: #2c3e50;
+  color: white;
+  margin-left: 1300px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.back-SS-btn:hover {
+  background: #6c9ed0;
+}
 /* Responsive Design */
 @media (max-width: 768px) {
   .security-header {

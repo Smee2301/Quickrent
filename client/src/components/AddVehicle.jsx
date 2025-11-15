@@ -87,6 +87,14 @@ export default function AddVehicle() {
     };
   }
 
+  const openLocalPreview = (file) => {
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    window.open(url, "_blank");
+    // Revoke after a short delay to allow open
+    setTimeout(() => URL.revokeObjectURL(url), 10000);
+  };
+
   async function onSubmit(e) {
     e.preventDefault();
     setMsg("");
@@ -160,25 +168,13 @@ export default function AddVehicle() {
         <h2>Add New Vehicle</h2>
 
         <button
-          type="button"
-          onClick={() => navigate('/owner/dashboard')}
-          className="back-dashboard-btn"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            margin: '8px 0 16px',
-            background: '#0ea5e9',
-            color: '#fff',
-            border: 'none',
-            padding: '10px 14px',
-            borderRadius: '8px',
-            cursor: 'pointer'
-          }}
-          aria-label="Back to Owner Dashboard"
-        >
-          <i className="fas fa-arrow-left"></i> Back to Dashboard
-        </button>
+      type="button"
+      onClick={() => navigate("/owner/dashboard")}
+      className="back-dashboard-btn"
+      aria-label="Back to Owner Dashboard"
+    >
+      <i className="fas fa-arrow-left"></i> Back to Dashboard
+       </button>
 
         <form onSubmit={onSubmit}>
           <div>
@@ -366,6 +362,11 @@ export default function AddVehicle() {
               required
             />
             <small>Only JPG, JPEG, PNG files allowed (max 5MB)</small>
+            {files.photo && (
+              <button type="button" className="file-view-btn" onClick={() => openLocalPreview(files.photo)}>
+                <i className="fas fa-eye"></i> View Selected
+              </button>
+            )}
           </div>
 
           <div className="form-group full">
@@ -377,6 +378,11 @@ export default function AddVehicle() {
               required
             />
             <small>Only PDF, JPG, JPEG, PNG files allowed (max 5MB)</small>
+            {files.rc && (
+              <button type="button" className="file-view-btn" onClick={() => openLocalPreview(files.rc)}>
+                <i className="fas fa-eye"></i> View Selected
+              </button>
+            )}
           </div>
 
           <div className="form-group full">
@@ -388,6 +394,11 @@ export default function AddVehicle() {
               required
             />
             <small>Only PDF, JPG, JPEG, PNG files allowed (max 5MB)</small>
+            {files.insurance && (
+              <button type="button" className="file-view-btn" onClick={() => openLocalPreview(files.insurance)}>
+                <i className="fas fa-eye"></i> View Selected
+              </button>
+            )}
           </div>
 
           <div className="form-group full">
@@ -399,6 +410,11 @@ export default function AddVehicle() {
               required
             />
             <small>Only PDF, JPG, JPEG, PNG files allowed (max 5MB)</small>
+            {files.pollution && (
+              <button type="button" className="file-view-btn" onClick={() => openLocalPreview(files.pollution)}>
+                <i className="fas fa-eye"></i> View Selected
+              </button>
+            )}
           </div>
 
           {/* Features */}

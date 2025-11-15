@@ -120,6 +120,20 @@ h2 {
 .phtable-container tr:hover {
   background: #f2f6ff;
 }
+.back-pymnt-btn {
+  background: #2c3e50;
+  color: white;
+  margin-left: 860px;
+  margin-bottom: 20px;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.back-pymnt-btn:hover {
+  background: #6c9ed0;
+}
 
 @media (max-width: 768px) {
   .phcontrols {

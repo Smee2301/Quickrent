@@ -109,6 +109,32 @@ small {
   font-style: italic;
 }
 
+.file-view-btn {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+}
+
+.file-view-btn:hover {
+  background: #2980b9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+}
+
+.file-view-btn i {
+  font-size: 0.9rem;
+}
+
 textarea {
   resize: vertical;
   min-height: 100px;
@@ -184,6 +210,26 @@ textarea {
 
 .submit-message:empty {
   display: none;
+}
+
+.back-dashboard-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 520px;
+  background: #2c3e50;
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease; /* <- apply transition here */
+}
+
+/* Hover effect */
+.back-dashboard-btn:hover {
+  background: #0284c7; /* darker shade on hover */
 }
 
 /* Responsive Design */

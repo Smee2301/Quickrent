@@ -76,19 +76,8 @@ export default function Paymenthistory() {
         <button
           type="button"
           onClick={() => navigate('/owner/dashboard')}
-          className="back-dashboard-btn"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            margin: '8px 0 16px',
-            background: '#0ea5e9',
-            color: '#fff',
-            border: 'none',
-            padding: '10px 14px',
-            borderRadius: '8px',
-            cursor: 'pointer'
-          }}
+          className="back-pymnt-btn"
+         
           aria-label="Back to Owner Dashboard"
         >
           <i className="fas fa-arrow-left"></i> Back to Dashboard

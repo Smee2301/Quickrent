@@ -191,6 +191,18 @@
     background: #002e82;
   }
   
+  .mtn-back {
+    background: #2c3e50;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  .mtn-back:hover {
+    background: #629bd3;
+  }
   /* Responsive */
   @media (max-width: 768px) {
     form {

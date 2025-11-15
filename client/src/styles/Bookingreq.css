@@ -74,8 +74,8 @@
   margin: 0;
   font-size: 20px;
 }
-.btn-back {
-  background: var(--ob-primary);
+.BKI-back {
+  background: #2c3e50;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -87,7 +87,7 @@
   gap: 8px;
   transition: background 0.18s ease, transform 0.08s ease;
 }
-.btn-back:hover { background: #051a38; transform: translateY(-1px); }
+.BKI-back:hover { background: #6a89b5; transform: translateY(-1px); }
 
 /* Message / toast */
 .message {

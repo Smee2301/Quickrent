@@ -48,8 +48,8 @@
   margin: 0;
 }
 
-.btn-back {
-  background: rgba(255, 255, 255, 0.2);
+.btn-back1 {
+  background: #2c3e50;
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 0.75rem 1.5rem;
@@ -62,9 +62,8 @@
   gap: 0.5rem;
 }
 
-.btn-back:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
+.btn-back1:hover {
+  background: #6c9ed0;
 }
 
 .message {

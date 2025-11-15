@@ -344,7 +344,7 @@ export default function Ologhistory() {
             <i className="fas fa-history"></i> Login History
           </h2>
           <button 
-            className="btn-back"
+            className="logh-back"
             onClick={() => navigate("/owner/dashboard")}
           >
             <i className="fas fa-arrow-left"></i> Back to Dashboard

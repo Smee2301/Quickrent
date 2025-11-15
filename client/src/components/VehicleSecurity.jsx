@@ -121,7 +121,7 @@ export default function VehicleSecurity() {
         <div className="header-actions">
           <h2>Vehicle Security Management</h2>
           <button 
-            className="btn-back"
+            className="btn-back1"
             onClick={() => navigate("/owner/dashboard")}
           >
             <i className="fas fa-arrow-left"></i> Back to Dashboard
