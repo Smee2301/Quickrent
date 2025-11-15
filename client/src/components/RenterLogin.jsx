@@ -117,7 +117,7 @@ export default function RenterLogin() {
               required 
             />
             {getFieldError("email") && <span className="error-text">{getFieldError("email")}</span>}
-            {suggestedEmail && <div className="suggest">Suggested email: {suggestedEmail}</div>}
+            {/* {suggestedEmail && <div className="suggest">Suggested email: {suggestedEmail}</div>} */}
           </div>
      <br></br>     
           <div className="renter-login-inputt">

@@ -74,10 +74,47 @@ const RAW_MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/quickr
 // Normalize localhost to IPv4 to avoid ::1 issues on Windows
 const MONGO_URI = RAW_MONGO_URI.replace('localhost', '127.0.0.1');
 
+async function fixRenterIndexes() {
+  try {
+    const Renter = require('./models/Renter');
+    const db = mongoose.connection.db;
+    const collection = db.collection('renters');
+    
+    // Drop the old referralCode index if it exists (non-sparse)
+    try {
+      await collection.dropIndex('referralCode_1');
+      console.log('Dropped old referralCode index');
+    } catch (err) {
+      // Index might not exist, which is fine
+      if (err.code !== 27) { // 27 = IndexNotFound
+        console.log('Note: Old referralCode index not found or already dropped');
+      }
+    }
+    
+    // Create the new sparse unique index
+    try {
+      await collection.createIndex({ referralCode: 1 }, { unique: true, sparse: true });
+      console.log('Created sparse unique index on referralCode');
+    } catch (err) {
+      // Index might already exist with correct settings
+      if (err.code !== 85) { // 85 = IndexOptionsConflict
+        console.log('Note: referralCode index may already exist');
+      }
+    }
+  } catch (err) {
+    console.error('Error fixing renter indexes:', err.message);
+    // Don't fail startup if index fix fails
+  }
+}
+
 async function start() {
   try {
     await mongoose.connect(MONGO_URI);
     console.log('Connected to MongoDB');
+    
+    // Fix the referralCode index issue
+    await fixRenterIndexes();
+    
     app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
   } catch (err) {
     console.error('Failed to start server', err);

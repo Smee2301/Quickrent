@@ -16,7 +16,8 @@ const renterSchema = new Schema(
     emergencyContact: { type: String },
     identityDocument: { type: String },
     isVerified: { type: Boolean, default: false },
-    averageRating: { type: Number, default: 0 }
+    averageRating: { type: Number, default: 0 },
+    referralCode: { type: String, default: null, sparse: true, unique: true }
   },
   { timestamps: true, collection: 'renters' }
 );
