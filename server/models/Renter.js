@@ -17,7 +17,9 @@ const renterSchema = new Schema(
     identityDocument: { type: String },
     isVerified: { type: Boolean, default: false },
     averageRating: { type: Number, default: 0 },
-    referralCode: { type: String, default: null, sparse: true, unique: true }
+    referralCode: { type: String, default: null, sparse: true, unique: true },
+    gender: { type: String, enum: ['Male', 'Female', 'Other', ''] },
+    pincode: { type: String }
   },
   { timestamps: true, collection: 'renters' }
 );

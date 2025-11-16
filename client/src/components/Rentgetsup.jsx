@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/Rentgetsup.css";
+import "../styles/SharedButtons.css";
 import logo from "../logo1.png";
 
 export default function Rentgetsup() {
+  const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [result, setResult] = useState("");
   const [form, setForm] = useState({ name: "", email: "", bookingId: "", issue: "", description: "" });
@@ -39,6 +42,16 @@ export default function Rentgetsup() {
 
       {/* Hero Search */}
       <div className="qsupport-hero">
+        <button 
+          type="button" 
+          onClick={() => navigate('/renter/dashboard')}
+          className="back-to-dashboard-btn"
+          aria-label="Back to Renter Dashboard"
+          style={{marginBottom: '20px'}}
+        >
+          <i className="fas fa-arrow-left"></i> Back to Dashboard
+        </button>
+        
         <h2>Need Help? How can we assist you today?</h2>
         <div className="qsupport-searchbox">
           <input type="text" placeholder="Search FAQs, Booking ID, issues..." value={query} onChange={(e)=>setQuery(e.target.value)} />

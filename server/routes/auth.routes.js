@@ -242,7 +242,10 @@ router.post('/login', async (req, res) => {
         name: user.name, 
         email: user.email, 
         phone: user.phone,
-        role: userRole 
+        role: userRole,
+        profileImage: user.profileImage || null,
+        city: user.city || null,
+        createdAt: user.createdAt
       } 
     });
   } catch (err) {

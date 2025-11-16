@@ -46,7 +46,7 @@
   
   /* Layout */
   .rps-container {
-    max-width: 1200px;
+    max-width: 1600px;
     margin: 40px auto;
     padding: 0 20px;
     display: grid;
@@ -175,6 +175,7 @@
   
   .rps-btn {
     padding: 14px 32px;
+    margin-right: 550px;
     background: var(--primary);
     color: #fff;
     border: none;

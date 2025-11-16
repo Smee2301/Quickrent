@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/Rentprofset.css";
+import "../styles/SharedButtons.css";
 
 export default function Rentprofset() {
-  const [profilePic, setProfilePic] = useState("default-profile.png");
+  const navigate = useNavigate();
+  const [profilePic, setProfilePic] = useState("/logo1.png");
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -14,29 +17,97 @@ export default function Rentprofset() {
     pincode: ""
   });
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Load user data from localStorage (from login)
+  // Load user data from API
   useEffect(() => {
-    const userData = localStorage.getItem('qr_user');
-    if (userData) {
-      const parsedData = JSON.parse(userData);
-      setFormData(prev => ({
-        ...prev,
-        fullName: parsedData.name || "",
-        email: parsedData.email || "",
-        phone: parsedData.phone || ""
-      }));
-    }
+    loadUserData();
   }, []);
+  
+  const loadUserData = async () => {
+    try {
+      const token = localStorage.getItem('qr_token');
+      const user = JSON.parse(localStorage.getItem('qr_user') || '{}');
+      
+      if (!token || !user.id) {
+        navigate('/renter/login', { replace: true });
+        return;
+      }
+      
+      // First, use localStorage data
+      setFormData({
+        fullName: user.name || "",
+        email: user.email || "",
+        phone: user.phone || "",
+        dateOfBirth: "",
+        gender: "",
+        fullAddress: "",
+        city: user.city || "",
+        pincode: ""
+      });
+      
+      // Then try to fetch from API
+      const response = await fetch(`http://localhost:4000/api/users/${user.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      
+      if (response.ok) {
+        const apiData = await response.json();
+        console.log('API Response:', apiData);
+        console.log('API profileImage:', apiData.profileImage);
+        
+        setFormData({
+          fullName: apiData.name || "",
+          email: apiData.email || "",
+          phone: apiData.phone || "",
+          dateOfBirth: apiData.dateOfBirth ? new Date(apiData.dateOfBirth).toISOString().split('T')[0] : "",
+          gender: apiData.gender || "",
+          fullAddress: apiData.address || "",
+          city: apiData.city || "",
+          pincode: apiData.pincode || ""
+        });
+        
+        // Set profile image if exists
+        if (apiData.profileImage) {
+          const imageUrl = `http://localhost:4000/uploads/${apiData.profileImage}`;
+          setProfilePic(imageUrl);
+          console.log('Loading profile image:', imageUrl);
+        } else {
+          console.log('No profile image found in user data');
+        }
+      }
+    } catch (error) {
+      console.error('Error loading user data:', error);
+    }
+  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      // Validate file type
+      const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+      if (!allowedTypes.includes(file.type)) {
+        setErrorMessage("❌ Invalid file type. Only JPG, JPEG, and PNG files are allowed.");
+        e.target.value = "";
+        return;
+      }
+      
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setErrorMessage("❌ File size too large. Maximum size is 5MB.");
+        e.target.value = "";
+        return;
+      }
+      
       const reader = new FileReader();
       reader.onload = (event) => {
         setProfilePic(event.target.result);
       };
       reader.readAsDataURL(file);
+      setErrorMessage("");
     }
   };
 
@@ -48,17 +119,95 @@ export default function Rentprofset() {
     }));
   };
 
-  const handleSaveDetails = (e) => {
+  const handleSaveDetails = async (e) => {
     e.preventDefault();
-    // Save profile data to localStorage
-    localStorage.setItem('profileData', JSON.stringify(formData));
-    localStorage.setItem('profilePic', profilePic);
+    setIsLoading(true);
+    setErrorMessage("");
+    setShowSuccessMessage(false);
     
-    // Show success message
-    setShowSuccessMessage(true);
-    setTimeout(() => {
-      setShowSuccessMessage(false);
-    }, 3000);
+    try {
+      const token = localStorage.getItem('qr_token');
+      const user = JSON.parse(localStorage.getItem('qr_user') || '{}');
+      
+      if (!token || !user.id) {
+        setErrorMessage("❌ Please login to update profile");
+        return;
+      }
+      
+      const data = new FormData();
+      
+      // Map form fields to API fields
+      const apiData = {
+        name: formData.fullName,
+        city: formData.city,
+        dateOfBirth: formData.dateOfBirth,
+        gender: formData.gender,
+        address: formData.fullAddress,
+        pincode: formData.pincode
+      };
+      
+      // Add form data
+      Object.entries(apiData).forEach(([key, value]) => {
+        if (value !== "" && value !== null && value !== undefined) {
+          data.append(key, value);
+        }
+      });
+      
+      // Add profile image if changed
+      const profileInput = document.getElementById("rpsProfileUpload");
+      if (profileInput && profileInput.files[0]) {
+        data.append("profileImage", profileInput.files[0]);
+      }
+      
+      const response = await fetch(`http://localhost:4000/api/users/${user.id}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        body: data
+      });
+      
+      const responseData = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(responseData.message || "Failed to update profile");
+      }
+      
+      // Update localStorage with new user data - preserve the image field
+      const updatedUser = { 
+        ...user, 
+        name: responseData.name || user.name,
+        city: responseData.city || user.city,
+        dateOfBirth: responseData.dateOfBirth || user.dateOfBirth,
+        gender: responseData.gender || user.gender,
+        address: responseData.address || user.address,
+        pincode: responseData.pincode || user.pincode,
+        profileImage: responseData.profileImage || user.profileImage
+      };
+      localStorage.setItem("qr_user", JSON.stringify(updatedUser));
+      
+      // Update profile image display
+      if (responseData.profileImage) {
+        const imageUrl = `http://localhost:4000/uploads/${responseData.profileImage}`;
+        setProfilePic(imageUrl);
+        console.log('Profile image updated:', imageUrl);
+      }
+      
+      // Show success message
+      setShowSuccessMessage(true);
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 3000);
+      
+      // Refresh data
+      loadUserData();
+      
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      setErrorMessage("❌ " + error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -69,9 +218,22 @@ export default function Rentprofset() {
         <h1>QuickRent – Profile Settings</h1>
       </div>
       
+      <button 
+          type="button" 
+          onClick={() => navigate('/renter/dashboard')}
+          className="back-to-dashboard-btn"
+          aria-label="Back to Renter Dashboard"
+          style={{marginBottom: '20px',
+            marginTop: '20px',
+            marginLeft: '30px'
+          }}
+        >
+          <i className="fas fa-arrow-left"></i> Back to Dashboard
+        </button>
 
       {/* Profile Content */}
       <div className="rps-container">
+        
         {/* Sidebar */}
         <div className="rps-sidebar">
           <img src={profilePic} alt="Profile" className="rps-profile-pic" />
@@ -191,13 +353,37 @@ export default function Rentprofset() {
 
           {/* Save */}
           <div className="rps-save">
-            <button className="rps-btn" onClick={handleSaveDetails}>Save details</button>
+            {errorMessage && (
+              <div className="rps-error-message" style={{
+                backgroundColor: '#fee',
+                color: '#c00',
+                padding: '12px',
+                borderRadius: '8px',
+                marginBottom: '15px',
+                border: '1px solid #fcc'
+              }}>
+                {errorMessage}
+              </div>
+            )}
             {showSuccessMessage && (
               <div className="rps-success-message">
                 <i className="fas fa-check-circle"></i>
-                Vehicle details saved successfully!
+                Profile details saved successfully!
               </div>
             )}
+            <button 
+              className="rps-btn" 
+              onClick={handleSaveDetails}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <i className="fas fa-spinner fa-spin"></i> Saving...
+                </>
+              ) : (
+                'Save details'
+              )}
+            </button>
           </div>
         </div>
       </div>

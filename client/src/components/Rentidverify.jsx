@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Rentidverify.css";
+import "../styles/SharedButtons.css";
 
 export default function Rentidverify() {
   const [step, setStep] = useState(1);
@@ -186,6 +187,16 @@ export default function Rentidverify() {
 
       {/* Content Section */}
       <div className="ridverify-container">
+        <button 
+          type="button" 
+          onClick={goDashboard}
+          className="back-to-dashboard-btn"
+          aria-label="Back to Renter Dashboard"
+          style={{marginBottom: '20px'}}
+        >
+          <i className="fas fa-arrow-left"></i> Back to Dashboard
+        </button>
+        
         {step === 1 && (
           <>
             <h2>

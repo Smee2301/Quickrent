@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { authRequired } = require('../middleware/auth');
-const User = require('../models/User');
+const Owner = require('../models/Owner');
+const Renter = require('../models/Renter');
 const upload = require('../middleware/upload');
 const bcrypt = require('bcryptjs');
 
@@ -13,10 +14,21 @@ router.get('/:id', authRequired, async (req, res) => {
       return res.status(403).json({ message: 'Unauthorized' });
     }
 
-    const user = await User.findById(req.params.id).select('-password');
+    // Try to find in Owner collection first
+    let user = await Owner.findById(req.params.id).select('-passwordHash');
+    
+    // If not found, try Renter collection
+    if (!user) {
+      user = await Renter.findById(req.params.id).select('-passwordHash');
+    }
+    
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
+
+    // Debug log for profile image
+    console.log('📸 GET /users/:id - Fetching profile for:', user.email);
+    console.log('📸 Profile image in database:', user.profileImage || 'No image');
 
     res.json(user);
   } catch (error) {
@@ -33,22 +45,45 @@ router.put('/:id', authRequired, upload.single('profileImage'), async (req, res)
       return res.status(403).json({ message: 'Unauthorized' });
     }
 
+    console.log('📤 PUT /users/:id - Update request for user:', req.params.id);
+    console.log('📤 File uploaded:', req.file ? req.file.filename : 'No file');
+    console.log('📤 Request body:', req.body);
+
     const updateData = { ...req.body };
     
     // Handle profile image upload
     if (req.file) {
       updateData.profileImage = req.file.filename;
+      console.log('✅ Profile image set to:', updateData.profileImage);
     }
+    
+    // Remove fields that shouldn't be updated via this endpoint
+    delete updateData.email; // Email can't be changed
+    delete updateData.phone; // Phone can't be changed
+    delete updateData.passwordHash;
+    delete updateData.password;
 
-    const user = await User.findByIdAndUpdate(
+    // Try to update in Owner collection first
+    let user = await Owner.findByIdAndUpdate(
       req.params.id,
       updateData,
       { new: true }
-    ).select('-password');
+    ).select('-passwordHash');
+    
+    // If not found, try Renter collection
+    if (!user) {
+      user = await Renter.findByIdAndUpdate(
+        req.params.id,
+        updateData,
+        { new: true }
+      ).select('-passwordHash');
+    }
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
+
+    console.log('💾 Saved user profile. ProfileImage:', user.profileImage || 'No image');
 
     res.json(user);
   } catch (error) {
@@ -71,14 +106,21 @@ router.put('/:id/change-password', authRequired, async (req, res) => {
       return res.status(400).json({ message: 'Current password and new password are required' });
     }
 
-    // Find the user
-    const user = await User.findById(req.params.id);
+    // Find the user (try Owner first, then Renter)
+    let user = await Owner.findById(req.params.id);
+    let isOwner = true;
+    
+    if (!user) {
+      user = await Renter.findById(req.params.id);
+      isOwner = false;
+    }
+    
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
     // Verify current password
-    const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
+    const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.passwordHash);
     if (!isCurrentPasswordValid) {
       return res.status(400).json({ message: 'Current password is incorrect' });
     }
@@ -92,8 +134,12 @@ router.put('/:id/change-password', authRequired, async (req, res) => {
     const saltRounds = 10;
     const hashedNewPassword = await bcrypt.hash(newPassword, saltRounds);
 
-    // Update password
-    await User.findByIdAndUpdate(req.params.id, { password: hashedNewPassword });
+    // Update password in the appropriate collection
+    if (isOwner) {
+      await Owner.findByIdAndUpdate(req.params.id, { passwordHash: hashedNewPassword });
+    } else {
+      await Renter.findByIdAndUpdate(req.params.id, { passwordHash: hashedNewPassword });
+    }
 
     res.json({ message: 'Password changed successfully' });
   } catch (error) {

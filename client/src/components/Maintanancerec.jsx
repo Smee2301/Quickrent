@@ -493,18 +493,33 @@ export default function Maintanancerec() {
                     <span className="value">{selectedRecord.notes}</span>
                   </div>
                 )}
-                {selectedRecord.documents && (
+                {selectedRecord.documents && selectedRecord.documents.length > 0 && (
                   <div className="detail-row">
                     <span className="label">Documents:</span>
                     <span className="value">
-                      <a 
-                        href={`/uploads/${selectedRecord.documents}`} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="document-link"
-                      >
-                        <i className="fas fa-file"></i> View Document
-                      </a>
+                      {Array.isArray(selectedRecord.documents) ? (
+                        selectedRecord.documents.map((doc, index) => (
+                          <a 
+                            key={index}
+                            href={`http://localhost:4000/uploads/${doc}`} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="document-link"
+                            style={{ marginRight: '10px' }}
+                          >
+                            <i className="fas fa-file"></i> View Document {selectedRecord.documents.length > 1 ? index + 1 : ''}
+                          </a>
+                        ))
+                      ) : (
+                        <a 
+                          href={`http://localhost:4000/uploads/${selectedRecord.documents}`} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="document-link"
+                        >
+                          <i className="fas fa-file"></i> View Document
+                        </a>
+                      )}
                     </span>
                   </div>
                 )}

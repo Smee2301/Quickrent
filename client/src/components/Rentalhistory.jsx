@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/Rentalhistory.css";
+import "../styles/SharedButtons.css";
 import logo from "../logo1.png";
 
 export default function Rentalhistory() {
+  const navigate = useNavigate();
   const rentals = [
     {
       id: "#QR1024",
@@ -42,6 +45,15 @@ export default function Rentalhistory() {
 
       {/* History Container */}
       <div className="rhis-container">
+        <button 
+          type="button" 
+          onClick={() => navigate('/renter/dashboard')}
+          className="back-to-dashboard-btn"
+          aria-label="Back to Renter Dashboard"
+        >
+          <i className="fas fa-arrow-left"></i> Back to Dashboard
+        </button>
+        
         <h2>Past Rentals</h2>
         <table className="rhis-table">
           <thead>

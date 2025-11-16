@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSocket } from "../contexts/SocketContext.jsx";
 import "../styles/Renterbrowse.css";
+import "../styles/SharedButtons.css";
 
 export default function Renterbrowse() {
   const navigate = useNavigate();
+  const { socket, connected } = useSocket();
   const [vehicles, setVehicles] = useState([]);
   const [filteredVehicles, setFilteredVehicles] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [notification, setNotification] = useState(null);
+  const [bookingSuccess, setBookingSuccess] = useState(null);
   const [filters, setFilters] = useState({
     type: "",
     fuel: "",
@@ -158,10 +164,9 @@ export default function Renterbrowse() {
     }
   }, []);
 
-  // Load vehicles and saved vehicles
+  // Load vehicles from API
   useEffect(() => {
-    setVehicles(sampleVehicles);
-    setFilteredVehicles(sampleVehicles);
+    fetchVehicles();
     
     // Load saved vehicles from localStorage
     const saved = localStorage.getItem('savedVehicles');
@@ -169,6 +174,82 @@ export default function Renterbrowse() {
       setSavedVehicles(JSON.parse(saved));
     }
   }, []);
+  
+  // Fetch vehicles from API
+  const fetchVehicles = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch('http://localhost:4000/api/vehicles');
+      if (response.ok) {
+        const data = await response.json();
+        // Transform API data to match existing structure
+        const transformedVehicles = data.map(v => ({
+          id: v._id,
+          img: v.photo ? `http://localhost:4000/uploads/${v.photo}` : '/lv1.avif',
+          alt: v.type,
+          name: `${v.brand} ${v.model}`,
+          type: v.type,
+          fuel: v.fuelType,
+          transmission: v.transmission || 'Manual',
+          rent: v.rentPerHour,
+          location: v.pickupLocation,
+          coordinates: { lat: 23.0225, lng: 72.5714 }, // Default coordinates
+          rating: 4.5,
+          reviews: 0,
+          features: v.features || [],
+          available: v.isAvailable && v.status === 'active',
+          owner: 'Owner',
+          contact: '+91 00000 00000',
+          vehicleNumber: v.vehicleNumber
+        }));
+        setVehicles(transformedVehicles);
+        setFilteredVehicles(transformedVehicles);
+      }
+    } catch (error) {
+      console.error('Error fetching vehicles:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  // Listen for real-time vehicle updates via Socket.IO
+  useEffect(() => {
+    if (!socket || !connected) return;
+    
+    socket.on('new_vehicle', (data) => {
+      console.log('New vehicle added:', data);
+      const v = data.vehicle;
+      const newVehicle = {
+        id: v._id,
+        img: v.photo ? `http://localhost:4000/uploads/${v.photo}` : '/lv1.avif',
+        alt: v.type,
+        name: `${v.brand} ${v.model}`,
+        type: v.type,
+        fuel: v.fuelType,
+        transmission: v.transmission || 'Manual',
+        rent: v.rentPerHour,
+        location: v.pickupLocation,
+        coordinates: { lat: 23.0225, lng: 72.5714 },
+        rating: 4.5,
+        reviews: 0,
+        features: v.features || [],
+        available: v.isAvailable && v.status === 'active',
+        owner: 'Owner',
+        contact: '+91 00000 00000',
+        vehicleNumber: v.vehicleNumber
+      };
+      
+      setVehicles(prev => [newVehicle, ...prev]);
+      
+      // Show notification
+      setNotification(`New ${v.type} available: ${v.brand} ${v.model}`);
+      setTimeout(() => setNotification(null), 5000);
+    });
+    
+    return () => {
+      socket.off('new_vehicle');
+    };
+  }, [socket, connected]);
 
   // Filter and search vehicles
   useEffect(() => {
@@ -261,19 +342,58 @@ export default function Renterbrowse() {
   };
 
   // Handle booking
-  const handleBooking = () => {
-    if (bookingDetails.totalHours > 0) {
-      // In real app, this would make an API call
-      alert(`Booking confirmed! Total cost: ₹${bookingDetails.totalCost} for ${bookingDetails.totalHours} hours`);
-      setShowBookingModal(false);
-      setBookingDetails({
-        pickupDate: "",
-        returnDate: "",
-        pickupTime: "",
-        returnTime: "",
-        totalHours: 0,
-        totalCost: 0
+  const handleBooking = async () => {
+    if (bookingDetails.totalHours <= 0) return;
+    
+    try {
+      const token = localStorage.getItem('qr_token');
+      if (!token) {
+        alert('Please login to book a vehicle');
+        navigate('/renter/login');
+        return;
+      }
+      
+      const response = await fetch('http://localhost:4000/api/bookings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          vehicleId: selectedVehicle.id,
+          pickupDate: bookingDetails.pickupDate,
+          returnDate: bookingDetails.returnDate,
+          pickupTime: bookingDetails.pickupTime,
+          returnTime: bookingDetails.returnTime,
+          totalHours: bookingDetails.totalHours,
+          totalAmount: bookingDetails.totalCost
+        })
       });
+      
+      if (response.ok) {
+        setBookingSuccess({
+          message: `Booking request sent! The owner will review your request. Total cost: ₹${bookingDetails.totalCost} for ${bookingDetails.totalHours} hours`,
+          hours: bookingDetails.totalHours,
+          cost: bookingDetails.totalCost
+        });
+        setShowBookingModal(false);
+        setBookingDetails({
+          pickupDate: "",
+          returnDate: "",
+          pickupTime: "",
+          returnTime: "",
+          totalHours: 0,
+          totalCost: 0
+        });
+        // Auto-hide after 5 seconds
+        setTimeout(() => setBookingSuccess(null), 5000);
+      } else {
+        const error = await response.json();
+        alert('Booking failed: ' + error.message);
+      }
+    } catch (error) {
+      console.error('Error creating booking:', error);
+      alert('Failed to create booking. Please try again.');
     }
   };
 
@@ -292,6 +412,45 @@ export default function Renterbrowse() {
 
   return (
     <div className="rb-wrapper">
+      {/* Real-time notification */}
+      {notification && (
+        <div style={{
+          position: 'fixed',
+          top: '20px',
+          right: '20px',
+          background: '#4caf50',
+          color: 'white',
+          padding: '15px 25px',
+          borderRadius: '8px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+          zIndex: 9999,
+          animation: 'slideIn 0.3s ease-out'
+        }}>
+          <strong>🎉 {notification}</strong>
+        </div>
+      )}
+
+      {/* Booking Success Notification */}
+      {bookingSuccess && (
+        <div className="rb-booking-success">
+          <div className="rb-booking-success-content">
+            <div className="rb-booking-success-icon">
+              <i className="fas fa-check-circle"></i>
+            </div>
+            <div className="rb-booking-success-text">
+              <h4>Booking Request Sent!</h4>
+              <p>{bookingSuccess.message}</p>
+            </div>
+            <button 
+              className="rb-booking-success-close"
+              onClick={() => setBookingSuccess(null)}
+            >
+              <i className="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+      )}
+      
       {/* Navbar */}
       <div className="rb-navbar">
         <img src="/logo1.png" alt="QuickRent Logo" className="rb-logo" />
@@ -300,6 +459,15 @@ export default function Renterbrowse() {
 
       {/* Container */}
       <div className="rb-container">
+        <button 
+          type="button" 
+          onClick={() => navigate('/renter/dashboard')}
+          className="back-to-dashboard-btn"
+          aria-label="Back to Renter Dashboard"
+        >
+          <i className="fas fa-arrow-left"></i> Back to Dashboard
+        </button>
+        
         <h2>
           <i className="fas fa-car"></i> Browse & Book Vehicles
         </h2>
@@ -457,7 +625,33 @@ export default function Renterbrowse() {
                       <i className={`fa ${isSaved ? 'fa-heart' : 'fa-heart-o'}`}></i> 
                       {isSaved ? 'Saved' : 'Save'}
                     </button>
-                    <button className="rb-btn-details">
+                    <button 
+                      className="rb-btn-details"
+                      onClick={() => {
+                        setSelectedVehicle(vehicle);
+                        // Show vehicle details modal with documents and owner info
+                        const modal = document.createElement('div');
+                        modal.innerHTML = `
+                          <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 9999; display: flex; align-items: center; justify-content: center;" onclick="this.remove()">
+                            <div style="background: white; padding: 30px; border-radius: 12px; max-width: 600px; max-height: 80vh; overflow-y: auto;" onclick="event.stopPropagation()">
+                              <h3 style="margin-top: 0;">Vehicle Details & Documents</h3>
+                              <p><strong>Vehicle:</strong> ${vehicle.name}</p>
+                              <p><strong>Type:</strong> ${vehicle.type}</p>
+                              <p><strong>Number:</strong> ${vehicle.vehicleNumber}</p>
+                              <p><strong>Rent:</strong> ₹${vehicle.rent}/hour</p>
+                              <p><strong>Location:</strong> ${vehicle.location}</p>
+                              <h4 style="margin-top: 20px;">Owner Information</h4>
+                              <p><strong>Name:</strong> ${vehicle.owner}</p>
+                              <p><strong>Contact:</strong> ${vehicle.contact}</p>
+                              <div style="margin-top: 20px;">
+                                <button onclick="this.closest('div').remove()" style="background: #2196f3; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Close</button>
+                              </div>
+                            </div>
+                          </div>
+                        `;
+                        document.body.appendChild(modal.firstElementChild);
+                      }}
+                    >
                       <i className="fas fa-info-circle"></i> Details
                     </button>
                   </div>

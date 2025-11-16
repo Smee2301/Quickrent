@@ -4,6 +4,7 @@ const { authRequired } = require('../middleware/auth');
 const upload = require('../middleware/upload');
 const fs = require('fs');
 const path = require('path');
+const { emitToRenters } = require('../socket');
 
 router.get('/', async (req, res) => {
   try {
@@ -95,6 +96,13 @@ router.post('/', authRequired, upload.fields([
     console.log('Creating vehicle with payload:', payload);
     
     const vehicle = await Vehicle.create(payload);
+    
+    // Emit real-time event to all renters about new vehicle
+    emitToRenters('new_vehicle', {
+      vehicle: vehicle.toObject(),
+      message: `New ${vehicle.type} available: ${vehicle.brand} ${vehicle.model}`
+    });
+    
     res.status(201).json(vehicle);
   } catch (err) {
     console.error('Error creating vehicle:', err);

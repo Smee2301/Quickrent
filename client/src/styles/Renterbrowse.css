@@ -617,4 +617,134 @@
   .rb-vehicle-card {
     margin-bottom: 20px;
   }
+  
+  .rb-btn-book,
+  .rb-btn-save,
+  .rb-btn-details {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+  
+  .rb-feature-tag {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+}
+
+/* Split-screen mode (laptop) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .rb-vehicle-list {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  }
+  
+  .rb-filter-row {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+  
+  .rb-container {
+    padding: 0 15px;
+  }
+}
+
+/* Tablet portrait */
+@media (min-width: 481px) and (max-width: 767px) {
+  .rb-vehicle-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .rb-filter-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Booking Success Notification */
+.rb-booking-success {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  animation: slideInRight 0.4s ease-out;
+}
+
+.rb-booking-success-content {
+  background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+  color: white;
+  padding: 20px 25px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-width: 350px;
+  max-width: 500px;
+  position: relative;
+}
+
+.rb-booking-success-icon {
+  font-size: 32px;
+  color: white;
+  flex-shrink: 0;
+}
+
+.rb-booking-success-text {
+  flex: 1;
+}
+
+.rb-booking-success-text h4 {
+  margin: 0 0 5px 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.rb-booking-success-text p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  opacity: 0.95;
+}
+
+.rb-booking-success-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.3s ease;
+}
+
+.rb-booking-success-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .rb-booking-success-content {
+    min-width: auto;
+    max-width: calc(100vw - 40px);
+    padding: 15px 20px;
+  }
+  
+  .rb-booking-success-text h4 {
+    font-size: 16px;
+  }
+  
+  .rb-booking-success-text p {
+    font-size: 13px;
+  }
 }

@@ -24,8 +24,14 @@ export default function Ownerdetail() {
   useEffect(() => {
     loadUserData();
     loadLoginHistory();
-    calculateTotals();
   }, []);
+  
+  // Calculate totals after user data is loaded
+  useEffect(() => {
+    if (formData.email) {
+      calculateTotals();
+    }
+  }, [formData.email]);
 
   const loadUserData = async () => {
     try {
@@ -59,7 +65,16 @@ export default function Ownerdetail() {
 
         if (response.ok) {
           const apiData = await response.json();
+          console.log('API Response:', apiData);
+          console.log('API profileImage:', apiData.profileImage);
+          
+          // Merge API data with userData
           Object.assign(userData, apiData);
+          
+          // Ensure profileImage is preserved if it exists
+          if (apiData.profileImage) {
+            userData.profileImage = apiData.profileImage;
+          }
         }
       } catch (apiError) {
         console.log("Using localStorage data as API failed:", apiError);
@@ -72,13 +87,18 @@ export default function Ownerdetail() {
         phone: userData.phone || "",
         city: userData.city || "",
         joinDate: userData.createdAt ? new Date(userData.createdAt).toISOString().split('T')[0] : "",
-        totalVehicles: userData.totalVehicles || 0,
-        totalBookings: userData.totalBookings || 0,
-        totalEarnings: userData.totalEarnings || 0
+        totalVehicles: 0, // Will be calculated
+        totalBookings: 0, // Will be calculated
+        totalEarnings: 0  // Will be calculated
       });
 
+      // Set profile image if exists
       if (userData.profileImage) {
-        setProfileImage(`http://localhost:4000/uploads/${userData.profileImage}`);
+        const imageUrl = `http://localhost:4000/uploads/${userData.profileImage}`;
+        setProfileImage(imageUrl);
+        console.log('Loading profile image:', imageUrl);
+      } else {
+        console.log('No profile image found in user data');
       }
     } catch (error) {
       console.error("Error loading user data:", error);
@@ -223,8 +243,14 @@ export default function Ownerdetail() {
 
       const data = new FormData();
       
-      // Add form data
-      Object.entries(formData).forEach(([key, value]) => {
+      // Map form fields to API fields
+      const apiData = {
+        name: formData.fullName,
+        city: formData.city
+      };
+      
+      // Add form data (only updatable fields)
+      Object.entries(apiData).forEach(([key, value]) => {
         if (value !== "" && value !== null && value !== undefined) {
           data.append(key, value);
         }
@@ -250,13 +276,20 @@ export default function Ownerdetail() {
         throw new Error(responseData.message || "Failed to update profile");
       }
 
-      // Update localStorage with new user data
-      const updatedUser = { ...user, ...responseData };
+      // Update localStorage with new user data - preserve the image field
+      const updatedUser = { 
+        ...user, 
+        name: responseData.name || user.name,
+        city: responseData.city || user.city,
+        profileImage: responseData.profileImage || user.profileImage
+      };
       localStorage.setItem("qr_user", JSON.stringify(updatedUser));
 
       // Update profile image display
       if (responseData.profileImage) {
-        setProfileImage(`http://localhost:4000/uploads/${responseData.profileImage}`);
+        const imageUrl = `http://localhost:4000/uploads/${responseData.profileImage}`;
+        setProfileImage(imageUrl);
+        console.log('Profile image updated:', imageUrl);
       }
 
       setMessage("✅ Details saved successfully!");

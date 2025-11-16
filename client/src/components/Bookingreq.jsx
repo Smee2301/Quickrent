@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSocket } from "../contexts/SocketContext.jsx";
 import "../styles/Bookingreq.css";
 
 export default function Bookingreq() {
@@ -10,11 +11,34 @@ export default function Bookingreq() {
   const [showDocumentPopup, setShowDocumentPopup] = useState(false);
   const [selectedDocuments, setSelectedDocuments] = useState(null);
   const [message, setMessage] = useState("");
+  const [notification, setNotification] = useState(null);
   const navigate = useNavigate();
+  const { socket, connected } = useSocket();
 
   useEffect(() => {
     fetchBookingRequests();
   }, []);
+  
+  // Listen for real-time booking requests
+  useEffect(() => {
+    if (!socket || !connected) return;
+    
+    socket.on('new_booking_request', (data) => {
+      console.log('New booking request received:', data);
+      setBookingRequests(prev => [data.booking, ...prev]);
+      
+      // Show notification
+      setNotification(`New booking request for your vehicle!`);
+      setTimeout(() => setNotification(null), 5000);
+      
+      // Optional: Play notification sound
+      // new Audio('/notification.mp3').play().catch(e => console.log('Audio play failed'));
+    });
+    
+    return () => {
+      socket.off('new_booking_request');
+    };
+  }, [socket, connected]);
 
   const fetchBookingRequests = async () => {
     try {
@@ -71,7 +95,11 @@ export default function Bookingreq() {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
-        }
+        },
+        body: JSON.stringify({
+          ownerNotes: action === 'approve' ? 'Your booking has been approved!' : undefined,
+          rejectionReason: action === 'reject' ? 'Vehicle not available for the requested dates' : undefined
+        })
       });
 
       const data = await response.json();
@@ -80,7 +108,7 @@ export default function Bookingreq() {
         throw new Error(data.message || `Failed to ${action} booking`);
       }
 
-      setMessage(`✅ Booking ${action}ed successfully!`);
+      setMessage(`✅ Booking ${action}d successfully! The renter will be notified.`);
       fetchBookingRequests();
       
       setTimeout(() => {
@@ -142,6 +170,24 @@ export default function Bookingreq() {
 
   return (
     <div className="ob-page">
+      {/* Real-time notification */}
+      {notification && (
+        <div style={{
+          position: 'fixed',
+          top: '20px',
+          right: '20px',
+          background: '#2196f3',
+          color: 'white',
+          padding: '15px 25px',
+          borderRadius: '8px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+          zIndex: 9999,
+          animation: 'slideIn 0.3s ease-out'
+        }}>
+          <strong>🔔 {notification}</strong>
+        </div>
+      )}
+      
       {/* Navbar */}
       <div className="ob-navbar">
         <img src="/logo1.png" alt="QuickRent Logo" />

@@ -73,6 +73,7 @@ const PORT = process.env.PORT || 4000;
 const RAW_MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/quickrent';
 // Normalize localhost to IPv4 to avoid ::1 issues on Windows
 const MONGO_URI = RAW_MONGO_URI.replace('localhost', '127.0.0.1');
+const { initializeSocket } = require('./socket');
 
 async function fixRenterIndexes() {
   try {
@@ -115,7 +116,11 @@ async function start() {
     // Fix the referralCode index issue
     await fixRenterIndexes();
     
-    app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+    const server = app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+    
+    // Initialize Socket.IO
+    initializeSocket(server);
+    console.log('Socket.IO initialized');
   } catch (err) {
     console.error('Failed to start server', err);
     process.exit(1);

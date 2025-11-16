@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Rentsavehicle.css";
+import "../styles/SharedButtons.css";
 
 export default function Rentsavehicle() {
   const navigate = useNavigate();
@@ -80,6 +81,15 @@ export default function Rentsavehicle() {
 
       {/* Content */}
       <div className="rsv-container">
+        <button 
+          type="button" 
+          onClick={() => navigate('/renter/dashboard')}
+          className="back-to-dashboard-btn"
+          aria-label="Back to Renter Dashboard"
+        >
+          <i className="fas fa-arrow-left"></i> Back to Dashboard
+        </button>
+        
         <h2 className="rsv-title">
           Saved Vehicles
         </h2>

@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import { SocketProvider } from './contexts/SocketContext.jsx';
 import Home from './components/Home.jsx';
 import OwnerLogin from './components/OwnerLogin.jsx';
 import RenterLogin from './components/RenterLogin.jsx';
@@ -44,8 +45,9 @@ import ContactUs from './components/ContactUs.jsx';
 
 export default function App() {
   return (
-    <Layout>
-      <Routes>
+    <SocketProvider>
+      <Layout>
+        <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/how-it-works" element={<HowItWorks />} />
@@ -83,8 +85,9 @@ export default function App() {
         <Route path="/profile-settings" element={<Rentprofset/>} />
         <Route path="/support" element={<Rentgetsup/>} />
         <Route path="/renter/Rentidverify" element={<Rentidverify />} />
-      </Routes>
-    </Layout>
+        </Routes>
+      </Layout>
+    </SocketProvider>
   );
 }
 

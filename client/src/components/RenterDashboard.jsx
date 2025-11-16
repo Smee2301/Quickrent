@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useSocket } from "../contexts/SocketContext.jsx";
 import "../styles/RenterDashboard.css";
 
 export default function RenterDashboard() {
   const [user, setUser] = useState({ name: "Renter" });
+  const [notifications, setNotifications] = useState([]);
   const navigate = useNavigate();
+  const { socket, connected } = useSocket();
 
   useEffect(() => {
     // Get user data from localStorage or API
@@ -18,6 +21,54 @@ export default function RenterDashboard() {
       }
     }
   }, []);
+  
+  // Listen for booking approval/rejection notifications
+  useEffect(() => {
+    if (!socket || !connected) return;
+    
+    socket.on('booking_approved', (data) => {
+      console.log('Booking approved:', data);
+      const newNotification = {
+        id: Date.now(),
+        type: 'success',
+        title: data.notification.title,
+        message: data.notification.message,
+        timestamp: new Date()
+      };
+      setNotifications(prev => [newNotification, ...prev]);
+      
+      // Auto-remove after 10 seconds
+      setTimeout(() => {
+        setNotifications(prev => prev.filter(n => n.id !== newNotification.id));
+      }, 10000);
+    });
+    
+    socket.on('booking_rejected', (data) => {
+      console.log('Booking rejected:', data);
+      const newNotification = {
+        id: Date.now(),
+        type: 'error',
+        title: data.notification.title,
+        message: data.notification.message,
+        timestamp: new Date()
+      };
+      setNotifications(prev => [newNotification, ...prev]);
+      
+      // Auto-remove after 10 seconds
+      setTimeout(() => {
+        setNotifications(prev => prev.filter(n => n.id !== newNotification.id));
+      }, 10000);
+    });
+    
+    return () => {
+      socket.off('booking_approved');
+      socket.off('booking_rejected');
+    };
+  }, [socket, connected]);
+  
+  const dismissNotification = (id) => {
+    setNotifications(prev => prev.filter(n => n.id !== id));
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('qr_token');
@@ -27,6 +78,59 @@ export default function RenterDashboard() {
 
   return (
     <div className="renter-container">
+      {/* Real-time notifications */}
+      <div style={{
+        position: 'fixed',
+        top: '20px',
+        right: '20px',
+        zIndex: 9999,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '10px',
+        maxWidth: '400px'
+      }}>
+        {notifications.map(notif => (
+          <div
+            key={notif.id}
+            style={{
+              background: notif.type === 'success' ? '#4caf50' : '#f44336',
+              color: 'white',
+              padding: '15px 20px',
+              borderRadius: '8px',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+              animation: 'slideIn 0.3s ease-out',
+              cursor: 'pointer'
+            }}
+            onClick={() => dismissNotification(notif.id)}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <div>
+                <strong style={{ display: 'block', marginBottom: '5px' }}>
+                  {notif.type === 'success' ? '🎉' : '❌'} {notif.title}
+                </strong>
+                <p style={{ margin: 0, fontSize: '14px' }}>{notif.message}</p>
+              </div>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  dismissNotification(notif.id);
+                }}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  color: 'white',
+                  cursor: 'pointer',
+                  fontSize: '18px',
+                  marginLeft: '10px'
+                }}
+              >
+                ×
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+      
       <nav className="renter-sidebar">
         <img className="renter-logo" src="/logo1.png" alt="QuickRent Logo" />
 
