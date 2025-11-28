@@ -73,7 +73,8 @@ export default function Bookingreq() {
   };
 
   const viewRenterDocuments = (documents) => {
-    setSelectedDocuments(documents);
+    // Ensure we always pass an object so popup opens even if no docs yet
+    setSelectedDocuments(documents || {});
     setShowDocumentPopup(true);
   };
 
@@ -468,30 +469,32 @@ export default function Bookingreq() {
                       <td>
                         <div className="vehicle-info">
                           <img 
-                            src={booking.vehicle?.photo ? `/uploads/${booking.vehicle.photo}` : '/lv1.avif'} 
-                            alt={booking.vehicle?.brand}
+                            src={booking.vehicleId?.photo 
+                              ? `http://localhost:4000/uploads/${booking.vehicleId.photo}` 
+                              : '/lv1.avif'} 
+                            alt={`${booking.vehicleId?.brand || 'Vehicle'} ${booking.vehicleId?.model || ''}`}
                             className="vehicle-thumbnail"
                           />
                           <div>
-                            <strong>{booking.vehicle?.brand} {booking.vehicle?.model}</strong>
-                            <small>{booking.vehicle?.vehicleNumber}</small>
+                            <strong>{booking.vehicleId?.brand} {booking.vehicleId?.model}</strong>
+                            <small>{booking.vehicleId?.vehicleNumber}</small>
                           </div>
                         </div>
                       </td>
                       <td>
                         <div className="renter-info">
-                          <strong>{booking.renter?.name}</strong>
-                          <small>{booking.renter?.phone}</small>
+                          <strong>{booking.renterId?.name}</strong>
+                          <small>{booking.renterId?.phone}</small>
                           <div className="renter-actions">
                             <button 
                               className="btn-view-profile"
-                              onClick={() => viewRenterProfile(booking.renter)}
+                              onClick={() => viewRenterProfile(booking.renterId)}
                             >
                               <i className="fas fa-user"></i> Profile
                             </button>
                             <button 
                               className="btn-view-docs"
-                              onClick={() => viewRenterDocuments(booking.renter?.documents)}
+                              onClick={() => viewRenterDocuments(booking.renterId?.documents)}
                             >
                               <i className="fas fa-file"></i> Docs
                             </button>

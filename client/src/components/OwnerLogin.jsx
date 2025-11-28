@@ -92,13 +92,14 @@ export default function OwnerLogin() {
         <h2>Owner Sign In</h2>
         <p>Access your vehicle dashboard and manage listings</p>
 
+        {/* Form autocomplete off so page doesn't pre-fill; inputs still get suggestions */}
         <form onSubmit={onSubmit} autoComplete="off">
           <div className="ol-form-group">
             <label>Email Address *</label>
             <input 
               type="email"
-              name="owner-email-input"
-              autoComplete="off"
+              name="email"
+              autoComplete="email"
               autoCapitalize="none"
               autoCorrect="off"
               spellCheck={false}
@@ -113,7 +114,6 @@ export default function OwnerLogin() {
               required 
             />
             {getFieldError("email") && <span className="ol-error-text">{getFieldError("email")}</span>}
-            {suggestedEmail && <div className="ol-suggest">Suggested email: {suggestedEmail}</div>}
           </div>
 <br></br>
           <div className="ol-form-group">
@@ -121,8 +121,8 @@ export default function OwnerLogin() {
             <div className="ol-password-input">
               <input 
                 type={showPassword ? "text" : "password"}
-                name="owner-password-input"
-                autoComplete="new-password"
+                name="password"
+                autoComplete="current-password"
                 value={password} 
                 onChange={(e) => {
                   setPassword(e.target.value);
@@ -156,9 +156,9 @@ export default function OwnerLogin() {
           <span>or</span>
         </div>
 
-        <button className="ol-google-btn" onClick={handleGoogleLogin}>
+        {/* <button className="ol-google-btn" onClick={handleGoogleLogin}>
           🔍 Sign in with Google
-        </button>
+        </button> */}
 
         <div className="ol-links">
           <Link to="/forgot-password">Forgot Password?</Link>

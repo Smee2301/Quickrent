@@ -1,6 +1,6 @@
 .PAY {
   min-height: 100vh;
-  background: url("/ownerdash.jpg")  center center fixed;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   background-size: cover;
   padding-bottom: 20px;
 }

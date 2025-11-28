@@ -271,9 +271,9 @@ export default function OwnerSignup() {
           <span>or</span>
         </div>
 
-        <button className="owner-google-btn" onClick={handleGoogleSignup}>
+        {/* <button className="owner-google-btn" onClick={handleGoogleSignup}>
           🔍 Sign up with Google
-        </button>
+        </button> */}
 
         <div className="owner-signup-link">
           <span>Already have an account? </span>

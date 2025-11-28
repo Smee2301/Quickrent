@@ -96,13 +96,14 @@ export default function RenterLogin() {
         <h2>Renter Sign In</h2>
         <p>Access your rental dashboard and manage bookings</p>
         
+        {/* Form autocomplete off so page doesn't pre-fill; inputs still get suggestions */}
         <form onSubmit={onSubmit} autoComplete="off">
           <div className="renter-login-input">
             <label>Email Address *</label>
             <input 
               type="email"
-              name="renter-email-input"
-              autoComplete="off"
+              name="email"
+              autoComplete="email"
               autoCapitalize="none"
               autoCorrect="off"
               spellCheck={false}
@@ -125,8 +126,8 @@ export default function RenterLogin() {
             <div className="password-input">
               <input 
                 type={showPassword ? "text" : "password"}
-                name="renter-password-input"
-                autoComplete="new-password"
+                name="password"
+                autoComplete="current-password"
                 value={password} 
                 onChange={e => {
                   setPassword(e.target.value);
@@ -160,9 +161,9 @@ export default function RenterLogin() {
           <span>or</span>
         </div>
 
-        <button className="renter-google-btn" onClick={handleGoogleLogin}>
+        {/* <button className="renter-google-btn" onClick={handleGoogleLogin}>
           🔍 Sign in with Google
-        </button>
+        </button> */}
 
         <div className="renter-login-links">
           <Link to="/forgot-passwordrent">Forgot Password?</Link>

@@ -9,7 +9,7 @@
 .ridverify-body {
   margin: 0;
   font-family: "Poppins", sans-serif;
-  background:  url("/renterdashbord.webp") no-repeat  center fixed;
+  background-color:  rgb(217, 231, 249);
     padding-bottom: 130px;
   background-size: cover;
 }

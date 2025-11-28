@@ -8,7 +8,7 @@
 .owner-dash{
   min-height: 100vh;
   /* background: url("/ownerdash.jpg") no-repeat center center fixed; */
-background-color: #D1D3D4;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   background-size: cover;
   padding: 10px;
 }

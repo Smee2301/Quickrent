@@ -10,7 +10,7 @@
   .rhis-page {
     margin: 0;
     font-family: 'Roboto', sans-serif;
-    background: url("/renterdashbord.webp") no-repeat center center fixed;
+    background-color:rgb(217, 231, 249) ;
     background-size: cover;
     color: var(--text);
     min-height: 100vh;

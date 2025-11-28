@@ -279,9 +279,9 @@ export default function RenterSignup() {
           <span>or</span>
         </div>
 <br></br>
-        <button className="renter-google-btn" onClick={handleGoogleSignup}>
+        {/* <button className="renter-google-btn" onClick={handleGoogleSignup}>
           🔍 Sign up with Google
-        </button>
+        </button> */}
 
         <div className="renter-signup-footer">
           <span>Already have an account? </span>
